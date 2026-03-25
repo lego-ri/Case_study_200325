@@ -1,0 +1,15 @@
+cervical_cancer_project/
+│
+├── data/
+│   └── risk_factors_cervical_cancer.csv   # Your raw data
+│
+├── notebooks/
+│   └── 01_exploratory_data_analysis.ipynb # Your original print statements and charts go here!
+│
+├── src/                                   # Source code for your modules
+│   ├── __init__.py
+│   ├── data_prep.py                       # The cleaning function lives here
+│   ├── visualizations.py                  # Functions to draw charts live here
+│   └── model_training.py                  # ML logic lives here
+│
+└── main.py                                # The central script that runs everything
