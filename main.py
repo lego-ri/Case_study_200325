@@ -3,6 +3,8 @@ from src.pre_processing import preprocess_data
 from src.pre_processing_smote import preprocess_data_smote
 from src.model_training import train_and_evaluate_models
 from sklearn.metrics import classification_report
+from src.threshold_tuning import test_model_thresholds
+
 
 
 print("==========================================")
@@ -26,6 +28,8 @@ print("==========================================")
 X_train_B, X_test_B, y_train_B, y_test_B, scaler_B = preprocess_data_smote(clean_df, verbose=True)
 models_B = train_and_evaluate_models(X_train_B, y_train_B, X_test_B, y_test_B, verbose=True)
 
+# Run the tuner using the models from Experiment B (SMOTE) and their respective test data
+test_model_thresholds(models_B, X_test_B, y_test_B, thresholds=[0.50, 0.30, 0.20, 0.15])
 # print("\n==========================================")
 # print("PHASE 6: THRESHOLD TUNING (LOGISTIC REGRESSION)")
 # print("==========================================")
