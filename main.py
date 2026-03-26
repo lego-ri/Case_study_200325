@@ -1,20 +1,9 @@
-from src.data_prep import load_and_clean_data
-# from src.model_training import train_model (You will build this later)
+import pandas as pd
+from src.data_prep import clean_and_prepare_data
 
-def main():
-    print("Starting Cervical Cancer ML Pipeline...")
-    
-    # 1. Data Preparation
-    file_path = "data/risk_factors_cervical_cancer.csv"
-    print("Loading and cleaning data...")
-    clean_df = load_and_clean_data(file_path)
-    
-    # Quick sanity check for the console
-    print(f"Data ready! Shape: {clean_df.shape}. Missing values: {clean_df.isnull().sum().sum()}")
-    
-    # 2. Model Training (Placeholder for your next step)
-    # print("Training model...")
-    # model, metrics = train_model(clean_df, target_col='Biopsy')
+# 1. Prepare Data
+input_path = "data/risk_factors_cervical_cancer.csv"
+output_path = "data/risk_factors_cervical_cancer_cleaned.csv"
+clean_df = clean_and_prepare_data(input_path, output_path)
 
-if __name__ == "__main__":
-    main()
+# Now clean_df is perfectly ready for Phase 4!
