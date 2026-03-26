@@ -28,31 +28,12 @@ print("==========================================")
 X_train_B, X_test_B, y_train_B, y_test_B, scaler_B = preprocess_data_smote(clean_df, verbose=True)
 models_B = train_and_evaluate_models(X_train_B, y_train_B, X_test_B, y_test_B, verbose=True)
 
-# Run the tuner using the models from Experiment B (SMOTE) and their respective test data
+print("\n==========================================")
+print("TUNING EXPERIMENT A: NO SMOTE (Algorithmic Weights)")
+print("==========================================")
+test_model_thresholds(models_A, X_test_A, y_test_A, thresholds=[0.50, 0.30, 0.20, 0.15])
+
+print("\n==========================================")
+print("TUNING EXPERIMENT B: WITH SMOTE (Synthetic Data)")
+print("==========================================")
 test_model_thresholds(models_B, X_test_B, y_test_B, thresholds=[0.50, 0.30, 0.20, 0.15])
-# print("\n==========================================")
-# print("PHASE 6: THRESHOLD TUNING (LOGISTIC REGRESSION)")
-# print("==========================================")
-
-# # 1. Grab our trained Logistic Regression model from Experiment A (the one without SMOTE)
-# # We use the non-SMOTE one because it represents the purest mathematical baseline
-# # log_reg_model = models_A["Logistic Regression"]
-# log_reg_model = models_A["Random Forest"]
-
-# # 2. Get the RAW probabilities (not the final 0 or 1 predictions) for the Test Set
-# # [:, 1] grabs the probability specifically for the Positive (1) class
-# probabilities = log_reg_model.predict_proba(X_test_A)[:, 1]
-
-# # 3. Define the custom thresholds we want to test
-# custom_thresholds = [0.50, 0.30, 0.20, 0.15]
-
-# for threshold in custom_thresholds:
-#     print(f"\n--- Testing Threshold: {threshold * 100}% ---")
-    
-#     # Create new predictions: True (1) if probability >= threshold, else False (0)
-#     # We convert the True/False boolean array directly into integers (1s and 0s)
-#     custom_predictions = (probabilities >= threshold).astype(int)
-    
-#     # Print the reality check
-#     print(classification_report(y_test_A, custom_predictions, target_names=['Negative (0)', 'Positive (1)']))
-#     print("-" * 50)

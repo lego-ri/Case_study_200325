@@ -71,9 +71,9 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, verbose=True):
         'STDs:AIDS',                    # Zero variance
         'STDs',                         # Redundant to STDs (number)
         'STDs:condylomatosis',          # Redundant master column
-        'Schiller',                     # Target leakage
-        'Hinselmann',                   # Target leakage
-        'Citology'                      # Target leakage
+        # 'Schiller',                     # Target leakage
+        # 'Hinselmann',                   # Target leakage
+        # 'Citology'                      # Target leakage
     ]
     
     df = df.drop(columns=redundant_and_leaking_cols, errors='ignore')

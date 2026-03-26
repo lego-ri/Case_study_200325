@@ -21,13 +21,14 @@ def train_and_evaluate_models(X_train, y_train, X_test, y_test, verbose=True):
     xgb_scale_weight = neg_count / pos_count
 
     # 1. Initialize ALL Models
+# 1. Initialize ALL Models
     models = {
         "Logistic Regression": LogisticRegression(class_weight='balanced', random_state=42, max_iter=10000),
-        "Random Forest": RandomForestClassifier(class_weight='balanced', random_state=42, n_estimators=1000),
-        "XGBoost": XGBClassifier(scale_pos_weight=xgb_scale_weight, random_state=42, eval_metric='logloss'),
-        # SVM requires probability=True to calculate ROC-AUC and do threshold tuning later
+        # ADDED n_jobs=-1 to Random Forest
+        "Random Forest": RandomForestClassifier(class_weight='balanced', random_state=42, n_estimators=1000, n_jobs=-2),
+        # ADDED n_jobs=-1 to XGBoost
+        "XGBoost": XGBClassifier(scale_pos_weight=xgb_scale_weight, random_state=42, eval_metric='logloss', n_jobs=-2),
         "Support Vector Machine": SVC(class_weight='balanced', probability=True, random_state=42),
-        # Neural Network (2 hidden layers: 64 neurons, then 32 neurons)
         "Neural Network": MLPClassifier(hidden_layer_sizes=(64, 32), max_iter=2000, random_state=42)
     }
 
@@ -39,7 +40,7 @@ def train_and_evaluate_models(X_train, y_train, X_test, y_test, verbose=True):
             print(f"\nEvaluating: {name}...")
             
         # Cross-Validation
-        cv_scores = cross_val_score(model, X_train, y_train, cv=cv, scoring='roc_auc')
+        cv_scores = cross_val_score(model, X_train, y_train, cv=cv, scoring='roc_auc', n_jobs=-2)
         if verbose:
             print(f"  CV ROC-AUC: {cv_scores.mean():.4f} (+/- {cv_scores.std() * 2:.4f})")
 
