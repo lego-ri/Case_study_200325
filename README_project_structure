@@ -1,15 +1,53 @@
-cervical_cancer_project/
-│
-├── data/
-│   └── risk_factors_cervical_cancer.csv   # Your raw data
-│
-├── notebooks/
-│   └── 01_exploratory_data_analysis.ipynb # Your original print statements and charts go here!
-│
-├── src/                                   # Source code for your modules
-│   ├── __init__.py
-│   ├── data_prep.py                       # The cleaning function lives here
-│   ├── visualizations.py                  # Functions to draw charts live here
-│   └── model_training.py                  # ML logic lives here
-│
-└── main.py                                # The central script that runs everything
+# Cervical Cancer Risk Prediction: A Study in Imbalanced Data and Target Leakage
+
+## Project Overview
+This project aimed to build a machine learning pipeline capable of predicting whether a patient requires a cervical biopsy based on demographic, behavioral, and historical medical data. 
+
+The primary challenge of this project was the severe class imbalance (94% Negative, 6% Positive) and the evaluation of predictive behavioral data versus diagnostic clinical data.
+
+## Dataset
+*   **Source:** `risk_factors_cervical_cancer.csv`
+*   **Target Variable:** `Biopsy` (Binary: 0 = Negative, 1 = Positive)
+*   **Class Imbalance:** 803 Negative cases vs. 55 Positive cases (~14.6:1 ratio).
+*   **Features:** Age, sexual history, smoking habits, contraceptive use, STD history, and clinical tests (Cytology, Schiller, Hinselmann).
+
+## Methodology & Pipeline
+
+### 1. Data Cleaning and Imputation
+*   Handled a high volume of missing values natively represented as `?`.
+*   Applied median imputation for continuous variables to prevent outlier skewing.
+*   Applied mode imputation for categorical variables.
+
+### 2. Feature Engineering & Target Leakage Prevention
+*   **Experiment Design:** We identified that clinical tests (`Citology`, `Schiller`, `Hinselmann`) represent target leakage if the goal is early pre-screening, as these are diagnostic tests performed immediately prior to a biopsy.
+*   The pipeline was structured to test the predictive power of purely behavioral/historical data by dropping these clinical columns.
+
+### 3. Pre-Processing
+*   **Stratified Splitting:** Implemented an 80/20 train-test split using `stratify=y` to ensure the 6% positive rate was mathematically preserved in both sets.
+*   **Feature Scaling:** Applied `StandardScaler` strictly fitted on the training data to prevent data leakage into the hold-out test set.
+
+### 4. Handling Class Imbalance (A/B Testing)
+Evaluated two distinct methods for handling the 94/6 class imbalance:
+*   **Option A (Algorithmic Weights):** Applied `class_weight='balanced'` and `scale_pos_weight` to mathematically penalize the algorithms for missing the minority class.
+*   **Option B (SMOTE):** Utilized Synthetic Minority Over-sampling Technique strictly on the training data to generate a perfectly balanced 50/50 dataset.
+
+### 5. Model Selection & Cross-Validation
+Trained and evaluated five distinct algorithms using 10-Fold Stratified Cross-Validation (optimized via multi-threading `n_jobs=-2`):
+1.  Logistic Regression
+2.  Random Forest Classifier
+3.  XGBoost
+4.  Support Vector Machine (SVM)
+5.  Neural Network (Multi-Layer Perceptron)
+
+### 6. Threshold Tuning & Evaluation Metrics
+Because Accuracy is a deceptive metric on highly imbalanced data, models were graded strictly on **Recall** (Sensitivity) and **Precision** (Positive Predictive Value). We manually adjusted prediction thresholds (50%, 30%, 20%, 15%) to observe the trade-off between catching positive cases and generating false alarms.
+
+---
+
+## Key Findings & Clinical Reality
+
+### 1. The Ceiling of Behavioral Data
+When restricted strictly to historical and behavioral data (Age, Smoking, STDs), all models struggled to separate the positive cases from the negative cases. The distributions overlap too heavily; a high-risk lifestyle does not mathematically guarantee a positive biopsy, and a low-risk lifestyle does not guarantee a negative one.
+
+### 2. SMOTE Induced Severe Overfitting
+Applying SMOTE caused highly complex models (Random Forest, XGBoost) to overfit. They achieved ~99% ROC

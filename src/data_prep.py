@@ -30,8 +30,14 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, verbose=True):
         print("[Step 1] Handled '?' placeholders and converted data to numeric.")
 
     # ---------------------------------------------------------
-    # 3. Handling Missing Data (Imputation)
+    # 3. Handling Missing Data (Imputation) and corrupted data
     # ---------------------------------------------------------
+    # Drop the fundamentally corrupted rows identified in Test 10 of Step 2 (see notebook)
+    df = df.drop(index=[312, 812])
+
+    # Optional but recommended: Reset the index after dropping rows to maintain a clean sequence
+    df = df.reset_index(drop=True)
+
     cols_to_drop = ['STDs: Time since first diagnosis', 'STDs: Time since last diagnosis']
     df = df.drop(columns=cols_to_drop, errors='ignore')
 
@@ -69,11 +75,11 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, verbose=True):
     redundant_and_leaking_cols = [
         'STDs:cervical condylomatosis', # Zero variance
         'STDs:AIDS',                    # Zero variance
-        'STDs',                         # Redundant to STDs (number)
-        'STDs:condylomatosis',          # Redundant master column
-        # 'Schiller',                     # Target leakage
-        # 'Hinselmann',                   # Target leakage
+        # 'STDs',                         # Redundant to STDs (number)
+        # 'STDs:condylomatosis',          # Redundant master column
         # 'Citology'                      # Target leakage
+        'Schiller',                     # Target leakage
+        'Hinselmann',                   # Target leakage
     ]
     
     df = df.drop(columns=redundant_and_leaking_cols, errors='ignore')

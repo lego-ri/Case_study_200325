@@ -24,9 +24,7 @@ def train_and_evaluate_models(X_train, y_train, X_test, y_test, verbose=True):
 # 1. Initialize ALL Models
     models = {
         "Logistic Regression": LogisticRegression(class_weight='balanced', random_state=42, max_iter=10000),
-        # ADDED n_jobs=-1 to Random Forest
         "Random Forest": RandomForestClassifier(class_weight='balanced', random_state=42, n_estimators=1000, n_jobs=-2),
-        # ADDED n_jobs=-1 to XGBoost
         "XGBoost": XGBClassifier(scale_pos_weight=xgb_scale_weight, random_state=42, eval_metric='logloss', n_jobs=-2),
         "Support Vector Machine": SVC(class_weight='balanced', probability=True, random_state=42),
         "Neural Network": MLPClassifier(hidden_layer_sizes=(64, 32), max_iter=2000, random_state=42)
