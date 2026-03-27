@@ -13,13 +13,20 @@ print("CERVICAL CANCER RISK PREDICTION PIPELINE")
 print("==========================================\n")
 
 # 1. Clean the Data
+# Input and output paths
 input_path = "data/risk_factors_cervical_cancer.csv"
 output_path_knn = "data/clean_cervical_cancer_data_knn.csv"
 output_path_median = "data/clean_cervical_cancer_data_median.csv"
+# Redundant and leaking columns
+redundant_and_leaking_cols = [
+        'STDs',                         # Redundant to STDs (number)
+        'STDs:condylomatosis',          # Redundant master column
+        'Schiller',                     # Target leakage
+        'Hinselmann'                    # Target leakage
+]
 # Generate both versions to test downstream ML model sensitivity
-clean_df_knn = clean_and_prepare_data(input_path, output_path_knn, imputation_method='knn', verbosity=2)
-# clean_df_median = clean_and_prepare_data(input_path, output_path_median, imputation_method='median', verbosity=2)
-sys.exit()
+clean_df_knn = clean_and_prepare_data(input_path, output_path_knn, imputation_method='knn', verbosity=0)
+clean_df_median = clean_and_prepare_data(input_path, output_path_median, imputation_method='median', verbosity=0)
 
 print("==========================================")
 print("EXPERIMENT A: ALGORITHMIC WEIGHTS (NO SMOTE)")

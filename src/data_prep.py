@@ -6,8 +6,8 @@ from sklearn.preprocessing import MinMaxScaler
 def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_method='knn', verbosity=1):
     """
     Loads raw cervical cancer data, cleans it, performs specified imputation (KNN or Median), 
-    enforces rigorous clinical consistency, removes redundant/leaking features, 
-    and returns an ML-ready dataframe.
+    enforces rigorous clinical consistency via a Dual Firewall architecture, 
+    removes redundant/leaking features, and returns an ML-ready dataframe.
     
     Parameters:
     - imputation_method (str): 'knn' or 'median'
@@ -20,6 +20,154 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
         print("==========================================")
         print(f"--- Starting Clinical Data Prep Pipeline (Mode: {imputation_method.upper()}) ---")
         print("==========================================")
+
+    # =========================================================
+    # INTERNAL HELPER: THE CLINICAL FIREWALL
+    # =========================================================
+    def _run_firewall(df_work, stage_label):
+        """Executes clinical boundary checks and prints Biopsy-prioritized audit logs."""
+        corrections = 0
+
+        # 1. FSI Check
+        fsi_conflict = df_work['First sexual intercourse'] > (df_work['Age'] + 1e-8)
+        if fsi_conflict.sum() > 0:
+            if verbosity >= 2:
+                print(f"-> {stage_label} OVERRIDE: Capped 'First sexual intercourse' at Age for {fsi_conflict.sum()} rows.")
+                audit_df = df_work.loc[fsi_conflict, ['Age', 'First sexual intercourse', 'Biopsy']].copy()
+                audit_df.rename(columns={'First sexual intercourse': f'FSI ({stage_label})'}, inplace=True)
+                
+            df_work.loc[fsi_conflict, 'First sexual intercourse'] = df_work.loc[fsi_conflict, 'Age']
+            
+            if verbosity >= 2:
+                audit_df['FSI (Corrected)'] = df_work.loc[fsi_conflict, 'First sexual intercourse']
+                audit_df = audit_df.sort_values(by='Biopsy', ascending=False)
+                print(audit_df.head(max(5, (audit_df['Biopsy'] == 1).sum())).to_string() + "\n")
+            corrections += fsi_conflict.sum()
+
+        # 2. Duration Checks
+        duration_cols = ['Smokes (years)', 'Hormonal Contraceptives (years)', 'IUD (years)']
+        for col in duration_cols:
+            if col in df_work.columns:
+                dur_conflict = df_work[col] > (df_work['Age'] + 1e-8)
+                if dur_conflict.sum() > 0:
+                    if verbosity >= 2:
+                        print(f"-> {stage_label} OVERRIDE: Capped '{col}' at Age for {dur_conflict.sum()} rows.")
+                        audit_df = df_work.loc[dur_conflict, ['Age', col, 'Biopsy']].copy()
+                        audit_df.rename(columns={col: f'{col} ({stage_label})'}, inplace=True)
+                    
+                    df_work.loc[dur_conflict, col] = df_work.loc[dur_conflict, 'Age']
+                    
+                    if verbosity >= 2:
+                        audit_df[f'{col} (Corrected)'] = df_work.loc[dur_conflict, col]
+                        audit_df = audit_df.sort_values(by='Biopsy', ascending=False)
+                        print(audit_df.head(max(5, (audit_df['Biopsy'] == 1).sum())).to_string() + "\n")
+                    corrections += dur_conflict.sum()
+
+                bio_conflict = ((df_work['Age'] + 1e-8) - df_work[col]) < 5
+                if bio_conflict.sum() > 0:
+                    if verbosity >= 2:
+                        print(f"-> {stage_label} OVERRIDE: Curtailed '{col}' to biological timeframe for {bio_conflict.sum()} rows.")
+                        audit_df = df_work.loc[bio_conflict, ['Age', col, 'Biopsy']].copy()
+                        audit_df.rename(columns={col: f'{col} ({stage_label})'}, inplace=True)
+                    
+                    df_work.loc[bio_conflict, col] = df_work.loc[bio_conflict, 'Age'] - 5
+                    
+                    if verbosity >= 2:
+                        audit_df[f'{col} (Corrected)'] = df_work.loc[bio_conflict, col]
+                        audit_df = audit_df.sort_values(by='Biopsy', ascending=False)
+                        print(audit_df.head(max(5, (audit_df['Biopsy'] == 1).sum())).to_string() + "\n")
+                    corrections += bio_conflict.sum()
+
+        # 3. Pregnancy Checks
+        years_active = (df_work['Age'] + 1e-8) - df_work['First sexual intercourse']
+        preg_conflict = df_work['Num of pregnancies'] > years_active
+        if preg_conflict.sum() > 0:
+            if verbosity >= 2:
+                print(f"-> {stage_label} OVERRIDE: Capped 'Num of pregnancies' at active years for {preg_conflict.sum()} rows.")
+                audit_df = df_work.loc[preg_conflict, ['Age', 'First sexual intercourse', 'Num of pregnancies', 'Biopsy']].copy()
+                audit_df.rename(columns={'Num of pregnancies': f'Pregnancies ({stage_label})'}, inplace=True)
+                audit_df['Active Years Limit'] = np.floor(years_active[preg_conflict])
+                
+            df_work.loc[preg_conflict, 'Num of pregnancies'] = np.floor(years_active[preg_conflict])
+            
+            if verbosity >= 2:
+                audit_df['Pregnancies (Corrected)'] = df_work.loc[preg_conflict, 'Num of pregnancies']
+                audit_df = audit_df.sort_values(by='Biopsy', ascending=False)
+                print(audit_df.head(max(5, (audit_df['Biopsy'] == 1).sum())).to_string() + "\n")
+            corrections += preg_conflict.sum()
+
+        # 4. Exposure Paradox
+        exposure_conflict = (df_work['Number of sexual partners'] == 0) & ((df_work['First sexual intercourse'] > 0) | (df_work['Num of pregnancies'] > 0))
+        if exposure_conflict.sum() > 0:
+            if verbosity >= 2:
+                print(f"-> {stage_label} OVERRIDE: Forced 'Number of sexual partners' to 1 for {exposure_conflict.sum()} rows (Exposure Paradox).")
+                audit_df = df_work.loc[exposure_conflict, ['First sexual intercourse', 'Num of pregnancies', 'Number of sexual partners', 'Biopsy']].copy()
+                audit_df.rename(columns={'Number of sexual partners': f'Partners ({stage_label})'}, inplace=True)
+                
+            df_work.loc[exposure_conflict, 'Number of sexual partners'] = 1
+            
+            if verbosity >= 2:
+                audit_df['Partners (Corrected)'] = df_work.loc[exposure_conflict, 'Number of sexual partners']
+                audit_df = audit_df.sort_values(by='Biopsy', ascending=False)
+                print(audit_df.head(max(5, (audit_df['Biopsy'] == 1).sum())).to_string() + "\n")
+            corrections += exposure_conflict.sum()
+
+        # 5. Smoke Math
+        smoke_math_conflict = (df_work['Smokes (packs/year)'] > 0) & (df_work['Smokes (years)'] == 0)
+        if smoke_math_conflict.sum() > 0:
+            if verbosity >= 2:
+                print(f"-> {stage_label} OVERRIDE: Forced 'Smokes (years)' to 1 for {smoke_math_conflict.sum()} rows (Pack/Year Paradox).")
+                audit_df = df_work.loc[smoke_math_conflict, ['Smokes (packs/year)', 'Smokes (years)', 'Biopsy']].copy()
+                audit_df.rename(columns={'Smokes (years)': f'Smokes Yrs ({stage_label})'}, inplace=True)
+                
+            df_work.loc[smoke_math_conflict, 'Smokes (years)'] = 1
+            
+            if verbosity >= 2:
+                audit_df['Smokes Yrs (Corrected)'] = df_work.loc[smoke_math_conflict, 'Smokes (years)']
+                audit_df = audit_df.sort_values(by='Biopsy', ascending=False)
+                print(audit_df.head(max(5, (audit_df['Biopsy'] == 1).sum())).to_string() + "\n")
+            corrections += smoke_math_conflict.sum()
+
+        # 6. Master STDs
+        all_std_related_cols = [c for c in df_work.columns if c.startswith('STDs') and c not in ['STDs', 'STDs (number)']]
+        std_conflict = (df_work['STDs'] == 0) & (df_work[all_std_related_cols].sum(axis=1) > 0)
+        if std_conflict.sum() > 0:
+            if verbosity >= 2:
+                print(f"-> {stage_label} OVERRIDE: Forced master 'STDs' to 1.0 for {std_conflict.sum()} rows (Sub-STDs detected).")
+                active_cols = [c for c in all_std_related_cols if df_work.loc[std_conflict, c].sum() > 0][:3]
+                audit_df = df_work.loc[std_conflict, ['STDs'] + active_cols + ['Biopsy']].copy()
+                audit_df.rename(columns={'STDs': f'STDs Master ({stage_label})'}, inplace=True)
+                
+            df_work.loc[std_conflict, 'STDs'] = 1.0
+            
+            if verbosity >= 2:
+                audit_df['STDs Master (Corrected)'] = df_work.loc[std_conflict, 'STDs']
+                audit_df = audit_df.sort_values(by='Biopsy', ascending=False)
+                print(audit_df.head(max(5, (audit_df['Biopsy'] == 1).sum())).to_string() + "\n")
+            corrections += std_conflict.sum()
+
+        # 7. Condy Master
+        condy_cols = [c for c in df_work.columns if 'condylomatosis' in c and c != 'STDs:condylomatosis']
+        condy_conflict = (df_work['STDs:condylomatosis'] == 0) & (df_work[condy_cols].sum(axis=1) > 0)
+        if condy_conflict.sum() > 0:
+            if verbosity >= 2:
+                print(f"-> {stage_label} OVERRIDE: Forced 'STDs:condylomatosis' to 1.0 for {condy_conflict.sum()} rows.")
+                audit_df = df_work.loc[condy_conflict, ['STDs:condylomatosis'] + condy_cols + ['Biopsy']].copy()
+                audit_df.rename(columns={'STDs:condylomatosis': f'Condy Master ({stage_label})'}, inplace=True)
+                
+            df_work.loc[condy_conflict, 'STDs:condylomatosis'] = 1.0
+            
+            if verbosity >= 2:
+                audit_df['Condy Master (Corrected)'] = df_work.loc[condy_conflict, 'STDs:condylomatosis']
+                audit_df = audit_df.sort_values(by='Biopsy', ascending=False)
+                print(audit_df.head(max(5, (audit_df['Biopsy'] == 1).sum())).to_string() + "\n")
+            corrections += condy_conflict.sum()
+
+        return corrections
+
+    # =========================================================
+    # PIPELINE EXECUTION
+    # =========================================================
 
     # ---------------------------------------------------------
     # 1. Load Data
@@ -42,33 +190,44 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
         print("[Step 1] Handled '?' placeholders and converted data to numeric.")
 
     # ---------------------------------------------------------
-    # 3. Dynamic Filtering of Corrupted Rows
+    # 3. Smart Dropping & Ground Truth Sanitization
     # ---------------------------------------------------------
     bad_fsi = df['First sexual intercourse'] > (df['Age'] + 1e-8)
     bad_smokes_years = df['Smokes (years)'] >= (df['Age'] + 1e-8)
     bad_hc_years = df['Hormonal Contraceptives (years)'] >= (df['Age'] + 1e-8)
     bad_iud_years = df['IUD (years)'] >= (df['Age'] + 1e-8)
-
-    chrono_flaws_mask = bad_fsi | bad_smokes_years | bad_hc_years | bad_iud_years
+    impossible_hc_start = ((df['Age'] + 1e-8) - df['Hormonal Contraceptives (years)']) < 5
+    impossible_iud_start = ((df['Age'] + 1e-8) - df['IUD (years)']) < 5
     
-    if verbosity >= 2:
-        chrono_flaws = df[chrono_flaws_mask]
-        print("\n--- Diagnostic Checks: Chronological Boundaries ---")
-        print(f"Found {len(chrono_flaws)} patients violating absolute chronological time limits.")
-        if len(chrono_flaws) > 0:
-            print(chrono_flaws[['Age', 'First sexual intercourse', 'Smokes (years)', 'Hormonal Contraceptives (years)', 'IUD (years)']].head(5).to_string())
-            print("-" * 60)
+    years_active = (df['Age'] + 1e-8) - df['First sexual intercourse']
+    impossible_pregnancies = df['Num of pregnancies'] > years_active
+
+    master_corruption_mask = (
+        bad_fsi | bad_smokes_years | bad_hc_years | bad_iud_years | 
+        impossible_hc_start | impossible_iud_start | impossible_pregnancies
+    )
+
+    safe_to_drop_mask = master_corruption_mask & (df['Biopsy'] == 0)
+    salvaged_positive_cases = master_corruption_mask & (df['Biopsy'] == 1)
 
     patients_before = len(df)
-    df = df[~chrono_flaws_mask].reset_index(drop=True)
+    df = df[~safe_to_drop_mask].reset_index(drop=True)
     
     if verbosity >= 1:
-        print(f"[Step 2] Dropped {patients_before - len(df)} chronologically impossible rows.")
+        print(f"\n[Step 2] Ground Truth Sanitization:")
+        print(f"         -> Dropped {patients_before - len(df)} corrupted majority-class patients (Biopsy = 0).")
+        print(f"         -> Salvaged {salvaged_positive_cases.sum()} corrupted minority-class patients (Biopsy = 1) for correction.")
+        print("         -> Executing Pre-Imputation Firewall (Fixing Raw Data)...")
+
+    # EXECUTE FIREWALL 1
+    pre_corrections = _run_firewall(df, "Pre-Imputation")
+    
+    if verbosity >= 1:
+        print(f"         -> Pre-Imputation Firewall resolved {pre_corrections} raw logical contradictions.")
 
     # ---------------------------------------------------------
     # 4. Handling Missing Data (Imputation Engine)
     # ---------------------------------------------------------
-    # Drop these two columns immediately as they contain >90% missing data and offer no signal.
     cols_to_drop = ['STDs: Time since first diagnosis', 'STDs: Time since last diagnosis']
     df = df.drop(columns=cols_to_drop, errors='ignore')
     
@@ -82,7 +241,6 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
         ('Hormonal Contraceptives', ['Hormonal Contraceptives (years)']),
         ('Smokes', ['Smokes (years)', 'Smokes (packs/year)'])
     ]
-
 
     # --- MEDIAN IMPUTATION BRANCH ---
     if imputation_method == 'median':
@@ -165,135 +323,16 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
                 df[col] = np.round(df[col])
 
     # ---------------------------------------------------------
-    # 5. Post-Imputation Clinical Override Firewall
+    # 5. Post-Imputation Compliance Firewall
     # ---------------------------------------------------------
     if verbosity >= 1:
-        print("\n[Step 4] Enforcing Clinical Boundaries (Firewall)...")
+        print("\n[Step 4] Enforcing Clinical Boundaries (Post-Imputation Firewall)...")
         
-    corrections = 0
-
-    fsi_conflict = df['First sexual intercourse'] > (df['Age'] + 1e-8)
-    if fsi_conflict.sum() > 0:
-        if verbosity >= 2:
-            print(f"-> OVERRIDE: Capped 'First sexual intercourse' at Age for {fsi_conflict.sum()} rows.")
-            audit_df = df.loc[fsi_conflict, ['Age', 'First sexual intercourse']].copy()
-            audit_df.rename(columns={'First sexual intercourse': 'FSI (Pre-Firewall)'}, inplace=True)
-            
-        df.loc[fsi_conflict, 'First sexual intercourse'] = df.loc[fsi_conflict, 'Age']
-        
-        if verbosity >= 2:
-            audit_df['FSI (Corrected)'] = df.loc[fsi_conflict, 'First sexual intercourse']
-            print(audit_df.head(5).to_string() + "\n")
-        corrections += fsi_conflict.sum()
-
-    duration_cols = ['Smokes (years)', 'Hormonal Contraceptives (years)', 'IUD (years)']
-    for col in duration_cols:
-        if col in df.columns:
-            dur_conflict = df[col] > (df['Age'] + 1e-8)
-            if dur_conflict.sum() > 0:
-                if verbosity >= 2:
-                    print(f"-> OVERRIDE: Capped '{col}' at Age for {dur_conflict.sum()} rows.")
-                    audit_df = df.loc[dur_conflict, ['Age', col]].copy()
-                    audit_df.rename(columns={col: f'{col} (Pre-Firewall)'}, inplace=True)
-                
-                df.loc[dur_conflict, col] = df.loc[dur_conflict, 'Age']
-                
-                if verbosity >= 2:
-                    audit_df[f'{col} (Corrected)'] = df.loc[dur_conflict, col]
-                    print(audit_df.head(5).to_string() + "\n")
-                corrections += dur_conflict.sum()
-
-            bio_conflict = ((df['Age'] + 1e-8) - df[col]) < 5
-            if bio_conflict.sum() > 0:
-                if verbosity >= 2:
-                    print(f"-> OVERRIDE: Curtailed '{col}' to biologically possible timeframe for {bio_conflict.sum()} rows.")
-                    audit_df = df.loc[bio_conflict, ['Age', col]].copy()
-                    audit_df.rename(columns={col: f'{col} (Pre-Firewall)'}, inplace=True)
-                
-                df.loc[bio_conflict, col] = df.loc[bio_conflict, 'Age'] - 5
-                
-                if verbosity >= 2:
-                    audit_df[f'{col} (Corrected)'] = df.loc[bio_conflict, col]
-                    print(audit_df.head(5).to_string() + "\n")
-                corrections += bio_conflict.sum()
-
-    years_active = (df['Age'] + 1e-8) - df['First sexual intercourse']
-    preg_conflict = df['Num of pregnancies'] > years_active
-    if preg_conflict.sum() > 0:
-        if verbosity >= 2:
-            print(f"-> OVERRIDE: Capped 'Num of pregnancies' at max possible active years for {preg_conflict.sum()} rows.")
-            audit_df = df.loc[preg_conflict, ['Age', 'First sexual intercourse', 'Num of pregnancies']].copy()
-            audit_df.rename(columns={'Num of pregnancies': 'Pregnancies (Pre-Firewall)'}, inplace=True)
-            audit_df['Active Years Limit'] = np.floor(years_active[preg_conflict])
-            
-        df.loc[preg_conflict, 'Num of pregnancies'] = np.floor(years_active[preg_conflict])
-        
-        if verbosity >= 2:
-            audit_df['Pregnancies (Corrected)'] = df.loc[preg_conflict, 'Num of pregnancies']
-            print(audit_df.head(5).to_string() + "\n")
-        corrections += preg_conflict.sum()
-
-    exposure_conflict = (df['Number of sexual partners'] == 0) & ((df['First sexual intercourse'] > 0) | (df['Num of pregnancies'] > 0))
-    if exposure_conflict.sum() > 0:
-        if verbosity >= 2:
-            print(f"-> OVERRIDE: Forced 'Number of sexual partners' to 1 for {exposure_conflict.sum()} rows due to exposure paradox.")
-            audit_df = df.loc[exposure_conflict, ['First sexual intercourse', 'Num of pregnancies', 'Number of sexual partners']].copy()
-            audit_df.rename(columns={'Number of sexual partners': 'Partners (Pre-Firewall)'}, inplace=True)
-            
-        df.loc[exposure_conflict, 'Number of sexual partners'] = 1
-        
-        if verbosity >= 2:
-            audit_df['Partners (Corrected)'] = df.loc[exposure_conflict, 'Number of sexual partners']
-            print(audit_df.head(5).to_string() + "\n")
-        corrections += exposure_conflict.sum()
-
-    smoke_math_conflict = (df['Smokes (packs/year)'] > 0) & (df['Smokes (years)'] == 0)
-    if smoke_math_conflict.sum() > 0:
-        if verbosity >= 2:
-            print(f"-> OVERRIDE: Forced 'Smokes (years)' to 1 for {smoke_math_conflict.sum()} rows due to positive pack/years.")
-            audit_df = df.loc[smoke_math_conflict, ['Smokes (packs/year)', 'Smokes (years)']].copy()
-            audit_df.rename(columns={'Smokes (years)': 'Smokes Yrs (Pre-Firewall)'}, inplace=True)
-            
-        df.loc[smoke_math_conflict, 'Smokes (years)'] = 1
-        
-        if verbosity >= 2:
-            audit_df['Smokes Yrs (Corrected)'] = df.loc[smoke_math_conflict, 'Smokes (years)']
-            print(audit_df.head(5).to_string() + "\n")
-        corrections += smoke_math_conflict.sum()
-
-    all_std_related_cols = [c for c in df.columns if c.startswith('STDs') and c not in ['STDs', 'STDs (number)']]
-    std_conflict = (df['STDs'] == 0) & (df[all_std_related_cols].sum(axis=1) > 0)
-    if std_conflict.sum() > 0:
-        if verbosity >= 2:
-            print(f"-> OVERRIDE: Forced master 'STDs' to 1.0 for {std_conflict.sum()} rows (Sub-STDs detected).")
-            active_cols = [c for c in all_std_related_cols if df.loc[std_conflict, c].sum() > 0][:3]
-            audit_df = df.loc[std_conflict, ['STDs'] + active_cols].copy()
-            audit_df.rename(columns={'STDs': 'STDs Master (Pre-Firewall)'}, inplace=True)
-            
-        df.loc[std_conflict, 'STDs'] = 1.0
-        
-        if verbosity >= 2:
-            audit_df['STDs Master (Corrected)'] = df.loc[std_conflict, 'STDs']
-            print(audit_df.head(5).to_string() + "\n")
-        corrections += std_conflict.sum()
-
-    condy_cols = [c for c in df.columns if 'condylomatosis' in c and c != 'STDs:condylomatosis']
-    condy_conflict = (df['STDs:condylomatosis'] == 0) & (df[condy_cols].sum(axis=1) > 0)
-    if condy_conflict.sum() > 0:
-        if verbosity >= 2:
-            print(f"-> OVERRIDE: Forced 'STDs:condylomatosis' to 1.0 for {condy_conflict.sum()} rows.")
-            audit_df = df.loc[condy_conflict, ['STDs:condylomatosis'] + condy_cols].copy()
-            audit_df.rename(columns={'STDs:condylomatosis': 'Condy Master (Pre-Firewall)'}, inplace=True)
-            
-        df.loc[condy_conflict, 'STDs:condylomatosis'] = 1.0
-        
-        if verbosity >= 2:
-            audit_df['Condy Master (Corrected)'] = df.loc[condy_conflict, 'STDs:condylomatosis']
-            print(audit_df.head(5).to_string() + "\n")
-        corrections += condy_conflict.sum()
-
+    # EXECUTE FIREWALL 2
+    post_corrections = _run_firewall(df, "Post-Imputation")
+    
     if verbosity >= 1:
-        print(f"         -> Firewall resolved {corrections} logical contradictions.")
+        print(f"         -> Post-Imputation Firewall resolved {post_corrections} algorithmic artifacts.")
 
     # ---------------------------------------------------------
     # 6. Feature Selection (Dropping redundancy & leakage)
@@ -303,7 +342,7 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
         'STDs:AIDS',                    # Zero variance
         'STDs',                         # Redundant to STDs (number)
         'STDs:condylomatosis',          # Redundant master column
-        'Citology',                     # Target leakage
+        # 'Citology',                     # Target leakage
         'Schiller',                     # Target leakage
         'Hinselmann'                    # Target leakage
     ]
