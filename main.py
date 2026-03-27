@@ -25,8 +25,8 @@ redundant_and_leaking_cols = [
         'Hinselmann'                    # Target leakage
 ]
 # Generate both versions to test downstream ML model sensitivity
-clean_df_knn = clean_and_prepare_data(input_path, output_path_knn, imputation_method='knn', verbosity=0)
-clean_df_median = clean_and_prepare_data(input_path, output_path_median, imputation_method='median', verbosity=0)
+clean_df_knn = clean_and_prepare_data(input_path, output_path_knn, imputation_method='knn', verbosity=0, cols_to_drop_extra=redundant_and_leaking_cols)
+clean_df_median = clean_and_prepare_data(input_path, output_path_median, imputation_method='median', verbosity=0, cols_to_drop_extra=redundant_and_leaking_cols)
 
 print("==========================================")
 print("EXPERIMENT A: ALGORITHMIC WEIGHTS (NO SMOTE)")

@@ -3,15 +3,18 @@ import numpy as np
 from sklearn.impute import KNNImputer
 from sklearn.preprocessing import MinMaxScaler
 
-def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_method='knn', verbosity=1):
+def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_method='knn', verbosity=1, cols_to_drop_extra=None):
     """
     Loads raw cervical cancer data, cleans it, performs specified imputation (KNN or Median), 
     enforces rigorous clinical consistency via a Dual Firewall architecture, 
     removes redundant/leaking features, and returns an ML-ready dataframe.
     
     Parameters:
+    - input_filepath (str): Path to the raw CSV data.
+    - output_filepath (str): Optional path to save the cleaned data.
     - imputation_method (str): 'knn' or 'median'
     - verbosity (int): 0 (Silent), 1 (Summaries), 2 (Full Notebook-Style Audit Trail)
+    - cols_to_drop_extra (list): Additional columns to drop (e.g., target leakage or redundant features).
     """
     if imputation_method not in ['knn', 'median']:
         raise ValueError("imputation_method must be either 'knn' or 'median'.")
@@ -337,20 +340,20 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
     # ---------------------------------------------------------
     # 6. Feature Selection (Dropping redundancy & leakage)
     # ---------------------------------------------------------
+    # Default drops for zero-variance mathematical dead weight
     redundant_and_leaking_cols = [
         'STDs:cervical condylomatosis', # Zero variance
-        'STDs:AIDS',                    # Zero variance
-        'STDs',                         # Redundant to STDs (number)
-        'STDs:condylomatosis',          # Redundant master column
-        # 'Citology',                     # Target leakage
-        'Schiller',                     # Target leakage
-        'Hinselmann'                    # Target leakage
+        'STDs:AIDS'                     # Zero variance
     ]
+    
+    # Extend the default drops with any strategic drops provided by the caller
+    if cols_to_drop_extra:
+        redundant_and_leaking_cols.extend(cols_to_drop_extra)
     
     df = df.drop(columns=redundant_and_leaking_cols, errors='ignore')
     
     if verbosity >= 1:
-        print(f"\n[Step 5] Dropped {len(redundant_and_leaking_cols)} redundant or target-leaking features.")
+        print(f"\n[Step 5] Dropped {len(redundant_and_leaking_cols)} redundant, non-variant, or target-leaking features.")
 
     # ---------------------------------------------------------
     # 7. Save and Return
@@ -372,8 +375,29 @@ if __name__ == "__main__":
     output_path_knn = "../data/clean_cervical_cancer_knn.csv"
     output_path_median = "../data/clean_cervical_cancer_median.csv"
     
-    # Example: Run KNN with full massive notebook-style logging
-    clean_df_knn = clean_and_prepare_data(input_path, output_path_knn, imputation_method='knn', verbosity=2)
+    # Define the custom extra drops based on EDA collinearity/leakage findings
+    extra_drops = [
+        'STDs',                         # Redundant to STDs (number)
+        'STDs:condylomatosis',          # Redundant master column
+        # 'Citology',                   # Target leakage (commented out as an example of flexibility)
+        'Schiller',                     # Target leakage
+        'Hinselmann'                    # Target leakage
+    ]
+    
+    # Example: Run KNN with full massive notebook-style logging, passing the extra drops
+    clean_df_knn = clean_and_prepare_data(
+        input_filepath=input_path, 
+        output_filepath=output_path_knn, 
+        imputation_method='knn', 
+        verbosity=2,
+        cols_to_drop_extra=extra_drops
+    )
     
     # Example: Run Median with summary-style logging
-    clean_df_median = clean_and_prepare_data(input_path, output_path_median, imputation_method='median', verbosity=1)
+    clean_df_median = clean_and_prepare_data(
+        input_filepath=input_path, 
+        output_filepath=output_path_median, 
+        imputation_method='median', 
+        verbosity=1,
+        cols_to_drop_extra=extra_drops
+    )
