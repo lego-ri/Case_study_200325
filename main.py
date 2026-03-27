@@ -4,6 +4,7 @@ from src.pre_processing_smote import preprocess_data_smote
 from src.model_training import train_and_evaluate_models
 from sklearn.metrics import classification_report
 from src.threshold_tuning import test_model_thresholds
+import sys
 
 
 
@@ -13,7 +14,8 @@ print("==========================================\n")
 
 # 1. Clean the Data
 input_path = "data/risk_factors_cervical_cancer.csv"
-clean_df = clean_and_prepare_data(input_path, verbose=False) # Turned off to keep terminal readable
+clean_df = clean_and_prepare_data(input_path, imputation_method="knn", verbose=True) # Turned off to keep terminal readable
+sys.exit()
 
 print("==========================================")
 print("EXPERIMENT A: ALGORITHMIC WEIGHTS (NO SMOTE)")
