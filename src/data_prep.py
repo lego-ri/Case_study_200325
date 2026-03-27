@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.impute import KNNImputer
 from sklearn.preprocessing import MinMaxScaler
 
-def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_method='knn', verbose=True):
+def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_method='knn', verbosity=1):
     """
     Loads raw cervical cancer data, cleans it, performs specified imputation (KNN or Median), 
     enforces rigorous clinical consistency, removes redundant/leaking features, 
@@ -11,11 +11,12 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
     
     Parameters:
     - imputation_method (str): 'knn' or 'median'
+    - verbosity (int): 0 (Silent), 1 (Summaries), 2 (Full Notebook-Style Audit Trail)
     """
     if imputation_method not in ['knn', 'median']:
         raise ValueError("imputation_method must be either 'knn' or 'median'.")
 
-    if verbose:
+    if verbosity >= 1:
         print("==========================================")
         print(f"--- Starting Clinical Data Prep Pipeline (Mode: {imputation_method.upper()}) ---")
         print("==========================================")
@@ -24,7 +25,7 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
     # 1. Load Data
     # ---------------------------------------------------------
     df = pd.read_csv(input_filepath)
-    if verbose:
+    if verbosity >= 1:
         print(f"[Info] Original Data Loaded: {df.shape[0]} patients, {df.shape[1]} features.")
 
     # ---------------------------------------------------------
@@ -37,7 +38,7 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
         except ValueError:
             pass
             
-    if verbose:
+    if verbosity >= 1:
         print("[Step 1] Handled '?' placeholders and converted data to numeric.")
 
     # ---------------------------------------------------------
@@ -50,17 +51,31 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
 
     chrono_flaws_mask = bad_fsi | bad_smokes_years | bad_hc_years | bad_iud_years
     
+    if verbosity >= 2:
+        chrono_flaws = df[chrono_flaws_mask]
+        print("\n--- Diagnostic Checks: Chronological Boundaries ---")
+        print(f"Found {len(chrono_flaws)} patients violating absolute chronological time limits.")
+        if len(chrono_flaws) > 0:
+            print(chrono_flaws[['Age', 'First sexual intercourse', 'Smokes (years)', 'Hormonal Contraceptives (years)', 'IUD (years)']].head(5).to_string())
+            print("-" * 60)
+
     patients_before = len(df)
     df = df[~chrono_flaws_mask].reset_index(drop=True)
     
-    if verbose:
+    if verbosity >= 1:
         print(f"[Step 2] Dropped {patients_before - len(df)} chronologically impossible rows.")
 
     # ---------------------------------------------------------
     # 4. Handling Missing Data (Imputation Engine)
     # ---------------------------------------------------------
+    # Drop these two columns immediately as they contain >90% missing data and offer no signal.
     cols_to_drop = ['STDs: Time since first diagnosis', 'STDs: Time since last diagnosis']
     df = df.drop(columns=cols_to_drop, errors='ignore')
+    
+    if verbosity >= 1:
+        print(f"\n[Info] Dropped {len(cols_to_drop)} columns due to severe missingness (>90%).")
+    if verbosity >= 2:
+        print(f"   -> Columns removed: {cols_to_drop}")
 
     conditional_groups = [
         ('IUD', ['IUD (years)']), 
@@ -68,30 +83,55 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
         ('Smokes', ['Smokes (years)', 'Smokes (packs/year)'])
     ]
 
+
+    # --- MEDIAN IMPUTATION BRANCH ---
     if imputation_method == 'median':
-        if verbose:
-            print("[Step 3] Executing Deterministic & Median Imputation...")
+        if verbosity >= 1:
+            print("\n[Step 3] Executing Deterministic & Median Imputation...")
             
         for master, sub_cols in conditional_groups:
-            df[master] = df[master].fillna(df[master].median())
+            master_missing = df[master].isnull().sum()
+            master_median = df[master].median()
+            df[master] = df[master].fillna(master_median)
+            
+            if verbosity >= 2 and master_missing > 0:
+                print(f"-> '{master}': Filled {master_missing} missing values with median {master_median}.")
+                
             for sub in sub_cols:
+                sub_missing = df[sub].isnull().sum()
                 user_median = df[df[master] == 1][sub].median()
+                
+                zero_fills = ((df[master] == 0) & df[sub].isnull()).sum()
+                median_fills = ((df[master] == 1) & df[sub].isnull()).sum()
+                
                 df.loc[df[master] == 0, sub] = df.loc[df[master] == 0, sub].fillna(0)
                 df.loc[df[master] == 1, sub] = df.loc[df[master] == 1, sub].fillna(user_median)
                 
-        # Global fallback for remaining columns
+                if verbosity >= 2 and sub_missing > 0:
+                    print(f"   - '{sub}': Filled {sub_missing} missing values (Zeros: {zero_fills}, Medians: {median_fills}).")
+                
+        fallback_count = 0
         for col in df.columns:
-            if df[col].isnull().sum() > 0:
-                df[col] = df[col].fillna(df[col].median())
+            missing_count = df[col].isnull().sum()
+            if missing_count > 0:
+                col_median = df[col].median()
+                df[col] = df[col].fillna(col_median)
+                if verbosity >= 2:
+                    print(f"-> '{col}': Filled {missing_count} missing values with global median {col_median}.")
+                fallback_count += missing_count
 
+    # --- KNN IMPUTATION BRANCH ---
     elif imputation_method == 'knn':
-        if verbose:
-            print("[Step 3] Executing Deterministic Pre-fill & KNN Imputation...")
+        if verbosity >= 1:
+            print("\n[Step 3] Executing Deterministic Pre-fill & KNN Imputation...")
             
         for master, sub_cols in conditional_groups:
             df[master] = df[master].fillna(df[master].median())
             for sub in sub_cols:
+                fills = ((df[master] == 0) & df[sub].isnull()).sum()
                 df.loc[df[master] == 0, sub] = df.loc[df[master] == 0, sub].fillna(0)
+                if verbosity >= 2 and fills > 0:
+                    print(f"-> '{sub}': Pre-filled {fills} NaNs with 0.0 because master '{master}' == 0.")
 
         binary_cols = [col for col in df.columns if set(df[col].dropna().unique()).issubset({0.0, 1.0})]
         missing_mask = df.isnull()
@@ -102,6 +142,17 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
         imputer = KNNImputer(n_neighbors=5, weights='distance')
         df_imputed_scaled = pd.DataFrame(imputer.fit_transform(df_scaled), columns=df.columns, index=df.index)
         df = pd.DataFrame(scaler.inverse_transform(df_imputed_scaled), columns=df.columns, index=df.index)
+
+        if verbosity >= 2:
+            print("\n   [Audit: Raw KNN Imputed Values Before Rounding]")
+            knn_imputed_count = 0
+            for col in df.columns:
+                if missing_mask[col].any():
+                    imputed_raw_vals = df.loc[missing_mask[col], col]
+                    missing_count = missing_mask[col].sum()
+                    print(f"   -> '{col}' ({missing_count} missing) | Min: {imputed_raw_vals.min():.4f}, Max: {imputed_raw_vals.max():.4f}, Mean: {imputed_raw_vals.mean():.4f}")
+                    knn_imputed_count += missing_count
+            print(f"\nTotal values dynamically guessed via KNN: {knn_imputed_count}\n")
 
         # Domain-Aware Rounding
         for col in binary_cols:
@@ -116,50 +167,132 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
     # ---------------------------------------------------------
     # 5. Post-Imputation Clinical Override Firewall
     # ---------------------------------------------------------
-    if verbose:
-        print("[Step 4] Enforcing Clinical Boundaries (Firewall)...")
+    if verbosity >= 1:
+        print("\n[Step 4] Enforcing Clinical Boundaries (Firewall)...")
         
     corrections = 0
 
     fsi_conflict = df['First sexual intercourse'] > (df['Age'] + 1e-8)
-    df.loc[fsi_conflict, 'First sexual intercourse'] = df.loc[fsi_conflict, 'Age']
-    corrections += fsi_conflict.sum()
+    if fsi_conflict.sum() > 0:
+        if verbosity >= 2:
+            print(f"-> OVERRIDE: Capped 'First sexual intercourse' at Age for {fsi_conflict.sum()} rows.")
+            audit_df = df.loc[fsi_conflict, ['Age', 'First sexual intercourse']].copy()
+            audit_df.rename(columns={'First sexual intercourse': 'FSI (Pre-Firewall)'}, inplace=True)
+            
+        df.loc[fsi_conflict, 'First sexual intercourse'] = df.loc[fsi_conflict, 'Age']
+        
+        if verbosity >= 2:
+            audit_df['FSI (Corrected)'] = df.loc[fsi_conflict, 'First sexual intercourse']
+            print(audit_df.head(5).to_string() + "\n")
+        corrections += fsi_conflict.sum()
 
     duration_cols = ['Smokes (years)', 'Hormonal Contraceptives (years)', 'IUD (years)']
     for col in duration_cols:
         if col in df.columns:
             dur_conflict = df[col] > (df['Age'] + 1e-8)
-            df.loc[dur_conflict, col] = df.loc[dur_conflict, 'Age']
-            corrections += dur_conflict.sum()
+            if dur_conflict.sum() > 0:
+                if verbosity >= 2:
+                    print(f"-> OVERRIDE: Capped '{col}' at Age for {dur_conflict.sum()} rows.")
+                    audit_df = df.loc[dur_conflict, ['Age', col]].copy()
+                    audit_df.rename(columns={col: f'{col} (Pre-Firewall)'}, inplace=True)
+                
+                df.loc[dur_conflict, col] = df.loc[dur_conflict, 'Age']
+                
+                if verbosity >= 2:
+                    audit_df[f'{col} (Corrected)'] = df.loc[dur_conflict, col]
+                    print(audit_df.head(5).to_string() + "\n")
+                corrections += dur_conflict.sum()
 
             bio_conflict = ((df['Age'] + 1e-8) - df[col]) < 5
-            df.loc[bio_conflict, col] = df.loc[bio_conflict, 'Age'] - 5
-            corrections += bio_conflict.sum()
+            if bio_conflict.sum() > 0:
+                if verbosity >= 2:
+                    print(f"-> OVERRIDE: Curtailed '{col}' to biologically possible timeframe for {bio_conflict.sum()} rows.")
+                    audit_df = df.loc[bio_conflict, ['Age', col]].copy()
+                    audit_df.rename(columns={col: f'{col} (Pre-Firewall)'}, inplace=True)
+                
+                df.loc[bio_conflict, col] = df.loc[bio_conflict, 'Age'] - 5
+                
+                if verbosity >= 2:
+                    audit_df[f'{col} (Corrected)'] = df.loc[bio_conflict, col]
+                    print(audit_df.head(5).to_string() + "\n")
+                corrections += bio_conflict.sum()
 
     years_active = (df['Age'] + 1e-8) - df['First sexual intercourse']
     preg_conflict = df['Num of pregnancies'] > years_active
-    df.loc[preg_conflict, 'Num of pregnancies'] = np.floor(years_active[preg_conflict])
-    corrections += preg_conflict.sum()
+    if preg_conflict.sum() > 0:
+        if verbosity >= 2:
+            print(f"-> OVERRIDE: Capped 'Num of pregnancies' at max possible active years for {preg_conflict.sum()} rows.")
+            audit_df = df.loc[preg_conflict, ['Age', 'First sexual intercourse', 'Num of pregnancies']].copy()
+            audit_df.rename(columns={'Num of pregnancies': 'Pregnancies (Pre-Firewall)'}, inplace=True)
+            audit_df['Active Years Limit'] = np.floor(years_active[preg_conflict])
+            
+        df.loc[preg_conflict, 'Num of pregnancies'] = np.floor(years_active[preg_conflict])
+        
+        if verbosity >= 2:
+            audit_df['Pregnancies (Corrected)'] = df.loc[preg_conflict, 'Num of pregnancies']
+            print(audit_df.head(5).to_string() + "\n")
+        corrections += preg_conflict.sum()
 
     exposure_conflict = (df['Number of sexual partners'] == 0) & ((df['First sexual intercourse'] > 0) | (df['Num of pregnancies'] > 0))
-    df.loc[exposure_conflict, 'Number of sexual partners'] = 1
-    corrections += exposure_conflict.sum()
+    if exposure_conflict.sum() > 0:
+        if verbosity >= 2:
+            print(f"-> OVERRIDE: Forced 'Number of sexual partners' to 1 for {exposure_conflict.sum()} rows due to exposure paradox.")
+            audit_df = df.loc[exposure_conflict, ['First sexual intercourse', 'Num of pregnancies', 'Number of sexual partners']].copy()
+            audit_df.rename(columns={'Number of sexual partners': 'Partners (Pre-Firewall)'}, inplace=True)
+            
+        df.loc[exposure_conflict, 'Number of sexual partners'] = 1
+        
+        if verbosity >= 2:
+            audit_df['Partners (Corrected)'] = df.loc[exposure_conflict, 'Number of sexual partners']
+            print(audit_df.head(5).to_string() + "\n")
+        corrections += exposure_conflict.sum()
 
     smoke_math_conflict = (df['Smokes (packs/year)'] > 0) & (df['Smokes (years)'] == 0)
-    df.loc[smoke_math_conflict, 'Smokes (years)'] = 1
-    corrections += smoke_math_conflict.sum()
+    if smoke_math_conflict.sum() > 0:
+        if verbosity >= 2:
+            print(f"-> OVERRIDE: Forced 'Smokes (years)' to 1 for {smoke_math_conflict.sum()} rows due to positive pack/years.")
+            audit_df = df.loc[smoke_math_conflict, ['Smokes (packs/year)', 'Smokes (years)']].copy()
+            audit_df.rename(columns={'Smokes (years)': 'Smokes Yrs (Pre-Firewall)'}, inplace=True)
+            
+        df.loc[smoke_math_conflict, 'Smokes (years)'] = 1
+        
+        if verbosity >= 2:
+            audit_df['Smokes Yrs (Corrected)'] = df.loc[smoke_math_conflict, 'Smokes (years)']
+            print(audit_df.head(5).to_string() + "\n")
+        corrections += smoke_math_conflict.sum()
 
     all_std_related_cols = [c for c in df.columns if c.startswith('STDs') and c not in ['STDs', 'STDs (number)']]
     std_conflict = (df['STDs'] == 0) & (df[all_std_related_cols].sum(axis=1) > 0)
-    df.loc[std_conflict, 'STDs'] = 1.0
-    corrections += std_conflict.sum()
+    if std_conflict.sum() > 0:
+        if verbosity >= 2:
+            print(f"-> OVERRIDE: Forced master 'STDs' to 1.0 for {std_conflict.sum()} rows (Sub-STDs detected).")
+            active_cols = [c for c in all_std_related_cols if df.loc[std_conflict, c].sum() > 0][:3]
+            audit_df = df.loc[std_conflict, ['STDs'] + active_cols].copy()
+            audit_df.rename(columns={'STDs': 'STDs Master (Pre-Firewall)'}, inplace=True)
+            
+        df.loc[std_conflict, 'STDs'] = 1.0
+        
+        if verbosity >= 2:
+            audit_df['STDs Master (Corrected)'] = df.loc[std_conflict, 'STDs']
+            print(audit_df.head(5).to_string() + "\n")
+        corrections += std_conflict.sum()
 
     condy_cols = [c for c in df.columns if 'condylomatosis' in c and c != 'STDs:condylomatosis']
     condy_conflict = (df['STDs:condylomatosis'] == 0) & (df[condy_cols].sum(axis=1) > 0)
-    df.loc[condy_conflict, 'STDs:condylomatosis'] = 1.0
-    corrections += condy_conflict.sum()
+    if condy_conflict.sum() > 0:
+        if verbosity >= 2:
+            print(f"-> OVERRIDE: Forced 'STDs:condylomatosis' to 1.0 for {condy_conflict.sum()} rows.")
+            audit_df = df.loc[condy_conflict, ['STDs:condylomatosis'] + condy_cols].copy()
+            audit_df.rename(columns={'STDs:condylomatosis': 'Condy Master (Pre-Firewall)'}, inplace=True)
+            
+        df.loc[condy_conflict, 'STDs:condylomatosis'] = 1.0
+        
+        if verbosity >= 2:
+            audit_df['Condy Master (Corrected)'] = df.loc[condy_conflict, 'STDs:condylomatosis']
+            print(audit_df.head(5).to_string() + "\n")
+        corrections += condy_conflict.sum()
 
-    if verbose:
+    if verbosity >= 1:
         print(f"         -> Firewall resolved {corrections} logical contradictions.")
 
     # ---------------------------------------------------------
@@ -177,18 +310,18 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
     
     df = df.drop(columns=redundant_and_leaking_cols, errors='ignore')
     
-    if verbose:
-        print(f"[Step 5] Dropped {len(redundant_and_leaking_cols)} redundant or target-leaking features.")
+    if verbosity >= 1:
+        print(f"\n[Step 5] Dropped {len(redundant_and_leaking_cols)} redundant or target-leaking features.")
 
     # ---------------------------------------------------------
     # 7. Save and Return
     # ---------------------------------------------------------
     if output_filepath:
         df.to_csv(output_filepath, index=False)
-        if verbose:
+        if verbosity >= 1:
             print(f"[Info] Clean data saved to {output_filepath}")
             
-    if verbose:
+    if verbosity >= 1:
         print(f"[Success] Final Clean Data Shape: {df.shape[0]} patients, {df.shape[1]} features.")
         print("--- Data Prep Complete ---\n")
         
@@ -200,6 +333,8 @@ if __name__ == "__main__":
     output_path_knn = "../data/clean_cervical_cancer_knn.csv"
     output_path_median = "../data/clean_cervical_cancer_median.csv"
     
-    # Generate both versions to test downstream ML model sensitivity
-    clean_df_knn = clean_and_prepare_data(input_path, output_path_knn, imputation_method='knn')
-    clean_df_median = clean_and_prepare_data(input_path, output_path_median, imputation_method='median')
+    # Example: Run KNN with full massive notebook-style logging
+    clean_df_knn = clean_and_prepare_data(input_path, output_path_knn, imputation_method='knn', verbosity=2)
+    
+    # Example: Run Median with summary-style logging
+    clean_df_median = clean_and_prepare_data(input_path, output_path_median, imputation_method='median', verbosity=1)
