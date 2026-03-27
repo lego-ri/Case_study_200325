@@ -1,9 +1,10 @@
 import pandas as pd
 from src.data_prep import clean_and_prepare_data
 from src.pre_processing import preprocess_data
-from src.pre_processing_smote import preprocess_data_smote
+# Note: src.pre_processing_smote is officially retired.
 from src.model_training import train_and_evaluate_models
 from src.threshold_tuning import test_model_thresholds
+import sys
 
 print("==========================================")
 print("CERVICAL CANCER RISK PREDICTION HARNESS")
@@ -22,13 +23,16 @@ feature_drop_strategies = {
     ],
     "Pre_Screen_condy": [
         'STDs', 'Schiller', 'Hinselmann'
+    ],
+        "Post_test_STDs": [
+        'STDs:condylomatosis'
+    ],
+    "Post_test_condy": [
+        'STDs'
+    ],
+        "Post_test_standard": [
+        'STDs','STDs:condylomatosis'
     ]
-    # "Post_test_STDs": [
-    #     'STDs:condylomatosis'
-    # ],
-    # "Post_test_condy": [
-    #     'STDs'
-    # ]
 }
 
 input_path = "data/risk_factors_cervical_cancer.csv"
@@ -49,20 +53,20 @@ for imputer in imputation_methods:
             cols_to_drop_extra=drop_list
         )
         
-        # B. Test Without SMOTE
-        exp_name_base = f"{imputer.upper()}_{strategy_name}_NoSMOTE"
-        X_train, X_test, y_train, y_test, _ = preprocess_data(df_clean, verbose=False)
-        models = train_and_evaluate_models(X_train, y_train, X_test, y_test, verbose=False)
+        # B. Preprocess Data (Done ONCE per strategy)
+        # We strictly enforce use_smote=False here because the Imblearn Pipeline handles it natively during CV.
+        X_train, X_test, y_train, y_test, _ = preprocess_data(df_clean, use_smote=False, verbose=False)
         
-        res_base = test_model_thresholds(models, X_test, y_test, exp_name=exp_name_base)
+        # C. Train & Test Without SMOTE
+        exp_name_base = f"{imputer.upper()}_{strategy_name}_NoSMOTE"
+        models_base = train_and_evaluate_models(X_train, y_train, X_test, y_test, apply_smote=False, verbose=False)
+        res_base = test_model_thresholds(models_base, X_test, y_test, exp_name=exp_name_base)
         all_experiment_results.append(res_base)
         
-        # C. Test With SMOTE
+        # D. Train & Test With SMOTE
         exp_name_smote = f"{imputer.upper()}_{strategy_name}_SMOTE"
-        X_train_s, X_test_s, y_train_s, y_test_s, _ = preprocess_data_smote(df_clean, verbose=False)
-        models_smote = train_and_evaluate_models(X_train_s, y_train_s, X_test_s, y_test_s, verbose=False)
-        
-        res_smote = test_model_thresholds(models_smote, X_test_s, y_test_s, exp_name=exp_name_smote)
+        models_smote = train_and_evaluate_models(X_train, y_train, X_test, y_test, apply_smote=True, verbose=False)
+        res_smote = test_model_thresholds(models_smote, X_test, y_test, exp_name=exp_name_smote)
         all_experiment_results.append(res_smote)
 
 # 3. Compile and Analyze the Master Ledger
