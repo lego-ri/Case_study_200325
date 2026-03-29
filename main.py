@@ -19,18 +19,18 @@ feature_drop_strategies = {
     "Pre_Screen_standard": [
         'STDs', 'STDs: Number of diagnosis', 'STDs:condylomatosis', 'Schiller', 'Hinselmann', 'Dx:HPV'
     ],
-    # "Pre_Screen_STDs": [
-    #     'STDs:condylomatosis', 'STDs: Number of diagnosis', 'Schiller', 'Hinselmann', 'Dx:HPV'
-    # ],
-    # "Pre_Screen_condy": [
-    #     'STDs', 'Schiller', 'STDs: Number of diagnosis', 'Hinselmann', 'Dx:HPV'
-    # ],
-    #     "Post_test_STDs": [
-    #     'STDs:condylomatosis','STDs: Number of diagnosis', 'Dx:HPV'
-    # ],
-    # "Post_test_condy": [
-    #     'STDs','STDs: Number of diagnosis' , 'Dx:HPV'
-    # ],
+    "Pre_Screen_STDs": [
+        'STDs:condylomatosis', 'STDs: Number of diagnosis', 'Schiller', 'Hinselmann', 'Dx:HPV'
+    ],
+    "Pre_Screen_condy": [
+        'STDs', 'Schiller', 'STDs: Number of diagnosis', 'Hinselmann', 'Dx:HPV'
+    ],
+        "Post_test_STDs": [
+        'STDs:condylomatosis','STDs: Number of diagnosis', 'Dx:HPV'
+    ],
+    "Post_test_condy": [
+        'STDs','STDs: Number of diagnosis' , 'Dx:HPV'
+    ],
         "Post_test_standard": [
         'STDs','STDs:condylomatosis','STDs: Number of diagnosis', 'Dx:HPV'
     ]

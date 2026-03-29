@@ -14,7 +14,7 @@ print("==========================================\n")
 
 # 1. Recreate the exact champion environment (Post_test_STDs)
 drop_list = ['STDs','STDs:condylomatosis', 'STDs: Number of diagnosis',
-              'Schiller', 'Hinselmann'
+            #   'Schiller', 'Hinselmann'
               ]
 input_path = "data/risk_factors_cervical_cancer.csv"
 
