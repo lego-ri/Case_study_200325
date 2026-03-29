@@ -57,7 +57,7 @@ def train_and_evaluate_models(X_train, y_train, X_test, y_test, apply_smote=Fals
         "Support Vector Machine": {
             "model": SVC(class_weight='balanced', probability=True, random_state=42),
             "params": {
-                'classifier__C': [0.1, 1, 10],
+                'classifier__C': [0.1, 1, 10], # Hardness of boundary margin (10 -> highly jagged, 0.1 soft, allowing misclassifications)
                 'classifier__kernel': ['linear', 'rbf']
             }
         }

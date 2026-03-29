@@ -1,385 +1,129 @@
-Experiment,Model,Threshold,CV_AUC,Test_AUC,Recall,Precision,F1_Score
-KNN_Pre_Screen_standard_SMOTE,Logistic Regression,0.15,0.6388,0.5413,1.0,0.071,0.1325
-KNN_Pre_Screen_STDs_SMOTE,Logistic Regression,0.15,0.6417,0.5519,1.0,0.071,0.1325
-KNN_Pre_Screen_condy_SMOTE,Logistic Regression,0.15,0.6372,0.5466,1.0,0.071,0.1325
-KNN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.25,0.6677,0.6129,1.0,0.0696,0.1302
-KNN_Pre_Screen_STDs_NoSMOTE,Logistic Regression,0.25,0.672,0.6164,1.0,0.0696,0.1302
-KNN_Pre_Screen_condy_NoSMOTE,Logistic Regression,0.25,0.6644,0.6158,1.0,0.0696,0.1302
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Logistic Regression,0.25,0.6597,0.6211,1.0,0.0696,0.1302
-MEDIAN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.15,0.6546,0.654,1.0,0.0671,0.1257
-MEDIAN_Pre_Screen_condy_NoSMOTE,Logistic Regression,0.15,0.6512,0.6551,1.0,0.0671,0.1257
-KNN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.15,0.6677,0.6129,1.0,0.0663,0.1243
-KNN_Pre_Screen_standard_SMOTE,XGBoost,0.15,0.7077,0.5636,1.0,0.0663,0.1243
-KNN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.15,0.7464,0.7114,1.0,0.0663,0.1243
-KNN_Pre_Screen_STDs_NoSMOTE,Logistic Regression,0.15,0.672,0.6164,1.0,0.0663,0.1243
-KNN_Pre_Screen_STDs_SMOTE,XGBoost,0.15,0.7069,0.5953,1.0,0.0663,0.1243
-KNN_Pre_Screen_STDs_SMOTE,Support Vector Machine,0.15,0.748,0.7173,1.0,0.0663,0.1243
-KNN_Pre_Screen_condy_NoSMOTE,Logistic Regression,0.15,0.6644,0.6158,1.0,0.0663,0.1243
-KNN_Pre_Screen_condy_SMOTE,XGBoost,0.15,0.7079,0.6117,1.0,0.0663,0.1243
-KNN_Pre_Screen_condy_SMOTE,Support Vector Machine,0.15,0.7457,0.7191,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_standard_SMOTE,Logistic Regression,0.15,0.6307,0.5751,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_standard_SMOTE,Logistic Regression,0.25,0.6307,0.5751,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_standard_SMOTE,Logistic Regression,0.35,0.6307,0.5751,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_standard_SMOTE,XGBoost,0.15,0.6562,0.627,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.15,0.7301,0.7073,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Logistic Regression,0.15,0.6597,0.6211,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_STDs_SMOTE,Logistic Regression,0.15,0.6336,0.6026,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_STDs_SMOTE,Logistic Regression,0.25,0.6336,0.6026,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_STDs_SMOTE,Logistic Regression,0.35,0.6336,0.6026,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_STDs_SMOTE,XGBoost,0.15,0.6745,0.6317,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_STDs_SMOTE,Support Vector Machine,0.15,0.735,0.7132,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_condy_SMOTE,Logistic Regression,0.15,0.6289,0.5762,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_condy_SMOTE,Logistic Regression,0.25,0.6289,0.5762,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_condy_SMOTE,Logistic Regression,0.35,0.6289,0.5762,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_condy_SMOTE,XGBoost,0.15,0.6579,0.6305,1.0,0.0663,0.1243
-MEDIAN_Pre_Screen_condy_SMOTE,Support Vector Machine,0.15,0.7321,0.7179,1.0,0.0663,0.1243
-KNN_Post_test_STDs_NoSMOTE,XGBoost,0.25,0.9778,0.9152,0.9091,0.7143,0.8
-KNN_Post_test_STDs_NoSMOTE,XGBoost,0.35,0.9778,0.9152,0.9091,0.7143,0.8
-KNN_Post_test_STDs_NoSMOTE,XGBoost,0.5,0.9778,0.9152,0.9091,0.7143,0.8
-KNN_Post_test_condy_NoSMOTE,XGBoost,0.25,0.9778,0.9152,0.9091,0.7143,0.8
-KNN_Post_test_condy_NoSMOTE,XGBoost,0.35,0.9778,0.9152,0.9091,0.7143,0.8
-KNN_Post_test_condy_NoSMOTE,XGBoost,0.5,0.9778,0.9152,0.9091,0.7143,0.8
-KNN_Post_test_standard_NoSMOTE,XGBoost,0.25,0.9778,0.9152,0.9091,0.7143,0.8
-KNN_Post_test_standard_NoSMOTE,XGBoost,0.35,0.9778,0.9152,0.9091,0.7143,0.8
-KNN_Post_test_standard_NoSMOTE,XGBoost,0.5,0.9778,0.9152,0.9091,0.7143,0.8
-MEDIAN_Post_test_STDs_NoSMOTE,XGBoost,0.5,0.9633,0.9238,0.9091,0.7143,0.8
-MEDIAN_Post_test_condy_NoSMOTE,XGBoost,0.5,0.9633,0.9238,0.9091,0.7143,0.8
-MEDIAN_Post_test_standard_NoSMOTE,XGBoost,0.5,0.9633,0.9238,0.9091,0.7143,0.8
-KNN_Post_test_STDs_NoSMOTE,Random Forest,0.25,0.9675,0.9672,0.9091,0.6667,0.7692
-KNN_Post_test_STDs_SMOTE,Random Forest,0.35,0.9729,0.9349,0.9091,0.6667,0.7692
-KNN_Post_test_condy_NoSMOTE,Random Forest,0.25,0.9731,0.9188,0.9091,0.6667,0.7692
-KNN_Post_test_condy_SMOTE,Random Forest,0.25,0.9618,0.9161,0.9091,0.6667,0.7692
-KNN_Post_test_standard_NoSMOTE,Random Forest,0.25,0.9689,0.9188,0.9091,0.6667,0.7692
-KNN_Post_test_standard_SMOTE,Random Forest,0.25,0.9667,0.9097,0.9091,0.6667,0.7692
-MEDIAN_Post_test_STDs_NoSMOTE,Random Forest,0.35,0.9657,0.9346,0.9091,0.6667,0.7692
-MEDIAN_Post_test_STDs_SMOTE,XGBoost,0.15,0.9619,0.9073,0.9091,0.6667,0.7692
-MEDIAN_Post_test_condy_NoSMOTE,Random Forest,0.35,0.9488,0.9452,0.9091,0.6667,0.7692
-MEDIAN_Post_test_condy_SMOTE,XGBoost,0.15,0.9644,0.9047,0.9091,0.6667,0.7692
-MEDIAN_Post_test_standard_NoSMOTE,Random Forest,0.25,0.9577,0.9443,0.9091,0.6667,0.7692
-MEDIAN_Post_test_standard_SMOTE,Random Forest,0.35,0.9562,0.9279,0.9091,0.6667,0.7692
-KNN_Post_test_STDs_NoSMOTE,XGBoost,0.15,0.9778,0.9152,0.9091,0.625,0.7407
-KNN_Post_test_condy_NoSMOTE,Logistic Regression,0.5,0.9682,0.9625,0.9091,0.625,0.7407
-KNN_Post_test_condy_NoSMOTE,XGBoost,0.15,0.9778,0.9152,0.9091,0.625,0.7407
-KNN_Post_test_standard_NoSMOTE,XGBoost,0.15,0.9778,0.9152,0.9091,0.625,0.7407
-MEDIAN_Post_test_standard_SMOTE,XGBoost,0.15,0.9646,0.9056,0.9091,0.625,0.7407
-KNN_Post_test_STDs_NoSMOTE,Logistic Regression,0.5,0.9684,0.9437,0.9091,0.5882,0.7143
-KNN_Post_test_STDs_SMOTE,Random Forest,0.25,0.9729,0.9349,0.9091,0.5882,0.7143
-KNN_Post_test_condy_NoSMOTE,Random Forest,0.15,0.9731,0.9188,0.9091,0.5882,0.7143
-KNN_Post_test_standard_NoSMOTE,Logistic Regression,0.5,0.9682,0.9431,0.9091,0.5882,0.7143
-KNN_Post_test_standard_NoSMOTE,Random Forest,0.15,0.9689,0.9188,0.9091,0.5882,0.7143
-MEDIAN_Post_test_STDs_NoSMOTE,Logistic Regression,0.5,0.9639,0.9367,0.9091,0.5882,0.7143
-MEDIAN_Post_test_STDs_NoSMOTE,Random Forest,0.25,0.9657,0.9346,0.9091,0.5882,0.7143
-MEDIAN_Post_test_STDs_SMOTE,Logistic Regression,0.35,0.9307,0.9355,0.9091,0.5882,0.7143
-MEDIAN_Post_test_STDs_SMOTE,Random Forest,0.25,0.958,0.9109,0.9091,0.5882,0.7143
-MEDIAN_Post_test_condy_NoSMOTE,Logistic Regression,0.5,0.9633,0.9367,0.9091,0.5882,0.7143
-MEDIAN_Post_test_condy_SMOTE,Logistic Regression,0.35,0.9307,0.9355,0.9091,0.5882,0.7143
-MEDIAN_Post_test_condy_SMOTE,Random Forest,0.25,0.9558,0.915,0.9091,0.5882,0.7143
-MEDIAN_Post_test_standard_NoSMOTE,Logistic Regression,0.5,0.9633,0.9367,0.9091,0.5882,0.7143
-MEDIAN_Post_test_standard_SMOTE,Logistic Regression,0.35,0.9309,0.9355,0.9091,0.5882,0.7143
-MEDIAN_Post_test_standard_SMOTE,Random Forest,0.25,0.9562,0.9279,0.9091,0.5882,0.7143
-KNN_Post_test_STDs_NoSMOTE,Random Forest,0.15,0.9675,0.9672,0.9091,0.5556,0.6897
-MEDIAN_Post_test_condy_NoSMOTE,Random Forest,0.25,0.9488,0.9452,0.9091,0.5556,0.6897
-KNN_Post_test_STDs_SMOTE,Logistic Regression,0.35,0.9356,0.9466,0.9091,0.5263,0.6667
-KNN_Post_test_condy_NoSMOTE,Logistic Regression,0.35,0.9682,0.9625,0.9091,0.5263,0.6667
-KNN_Post_test_condy_SMOTE,Logistic Regression,0.35,0.9565,0.9443,0.9091,0.5263,0.6667
-KNN_Post_test_standard_SMOTE,Logistic Regression,0.35,0.9564,0.9449,0.9091,0.5263,0.6667
-MEDIAN_Post_test_standard_NoSMOTE,Random Forest,0.15,0.9577,0.9443,0.9091,0.5263,0.6667
-KNN_Post_test_STDs_SMOTE,Logistic Regression,0.25,0.9356,0.9466,0.9091,0.5,0.6452
-KNN_Post_test_condy_SMOTE,Logistic Regression,0.25,0.9565,0.9443,0.9091,0.5,0.6452
-KNN_Post_test_standard_SMOTE,Logistic Regression,0.25,0.9564,0.9449,0.9091,0.5,0.6452
-MEDIAN_Post_test_standard_SMOTE,Logistic Regression,0.25,0.9309,0.9355,0.9091,0.5,0.6452
-KNN_Post_test_STDs_NoSMOTE,Logistic Regression,0.35,0.9684,0.9437,0.9091,0.4762,0.625
-KNN_Post_test_STDs_SMOTE,Logistic Regression,0.15,0.9356,0.9466,0.9091,0.4762,0.625
-KNN_Post_test_STDs_SMOTE,Support Vector Machine,0.35,0.9655,0.915,0.9091,0.4762,0.625
-KNN_Post_test_condy_SMOTE,Logistic Regression,0.15,0.9565,0.9443,0.9091,0.4762,0.625
-KNN_Post_test_condy_SMOTE,Support Vector Machine,0.35,0.9629,0.915,0.9091,0.4762,0.625
-KNN_Post_test_standard_NoSMOTE,Logistic Regression,0.35,0.9682,0.9431,0.9091,0.4762,0.625
-KNN_Post_test_standard_SMOTE,Logistic Regression,0.15,0.9564,0.9449,0.9091,0.4762,0.625
-MEDIAN_Post_test_STDs_SMOTE,Logistic Regression,0.25,0.9307,0.9355,0.9091,0.4762,0.625
-MEDIAN_Post_test_condy_SMOTE,Logistic Regression,0.25,0.9307,0.9355,0.9091,0.4762,0.625
-MEDIAN_Post_test_condy_SMOTE,Support Vector Machine,0.35,0.9602,0.9109,0.9091,0.4762,0.625
-KNN_Post_test_STDs_NoSMOTE,Logistic Regression,0.25,0.9684,0.9437,0.9091,0.4545,0.6061
-KNN_Post_test_STDs_NoSMOTE,Support Vector Machine,0.15,0.9636,0.9284,0.9091,0.4545,0.6061
-KNN_Post_test_condy_NoSMOTE,Logistic Regression,0.15,0.9682,0.9625,0.9091,0.4545,0.6061
-KNN_Post_test_condy_NoSMOTE,Logistic Regression,0.25,0.9682,0.9625,0.9091,0.4545,0.6061
-KNN_Post_test_condy_NoSMOTE,Support Vector Machine,0.15,0.9544,0.929,0.9091,0.4545,0.6061
-KNN_Post_test_standard_NoSMOTE,Logistic Regression,0.25,0.9682,0.9431,0.9091,0.4545,0.6061
-KNN_Post_test_standard_NoSMOTE,Support Vector Machine,0.15,0.9544,0.9267,0.9091,0.4545,0.6061
-KNN_Post_test_standard_SMOTE,Random Forest,0.15,0.9667,0.9097,0.9091,0.4545,0.6061
-MEDIAN_Post_test_STDs_NoSMOTE,Logistic Regression,0.25,0.9639,0.9367,0.9091,0.4545,0.6061
-MEDIAN_Post_test_STDs_NoSMOTE,Logistic Regression,0.35,0.9639,0.9367,0.9091,0.4545,0.6061
-MEDIAN_Post_test_STDs_NoSMOTE,XGBoost,0.35,0.9633,0.9238,0.9091,0.4545,0.6061
-MEDIAN_Post_test_STDs_NoSMOTE,Support Vector Machine,0.15,0.9671,0.9232,0.9091,0.4545,0.6061
-MEDIAN_Post_test_STDs_SMOTE,Logistic Regression,0.15,0.9307,0.9355,0.9091,0.4545,0.6061
-MEDIAN_Post_test_condy_NoSMOTE,Logistic Regression,0.25,0.9633,0.9367,0.9091,0.4545,0.6061
-MEDIAN_Post_test_condy_NoSMOTE,Logistic Regression,0.35,0.9633,0.9367,0.9091,0.4545,0.6061
-MEDIAN_Post_test_condy_NoSMOTE,XGBoost,0.35,0.9633,0.9238,0.9091,0.4545,0.6061
-MEDIAN_Post_test_condy_NoSMOTE,Support Vector Machine,0.15,0.9584,0.9232,0.9091,0.4545,0.6061
-MEDIAN_Post_test_condy_SMOTE,Logistic Regression,0.15,0.9307,0.9355,0.9091,0.4545,0.6061
-MEDIAN_Post_test_condy_SMOTE,Random Forest,0.15,0.9558,0.915,0.9091,0.4545,0.6061
-MEDIAN_Post_test_standard_NoSMOTE,Logistic Regression,0.25,0.9633,0.9367,0.9091,0.4545,0.6061
-MEDIAN_Post_test_standard_NoSMOTE,Logistic Regression,0.35,0.9633,0.9367,0.9091,0.4545,0.6061
-MEDIAN_Post_test_standard_NoSMOTE,XGBoost,0.35,0.9633,0.9238,0.9091,0.4545,0.6061
-MEDIAN_Post_test_standard_NoSMOTE,Support Vector Machine,0.15,0.9597,0.9202,0.9091,0.4545,0.6061
-MEDIAN_Post_test_standard_SMOTE,Logistic Regression,0.15,0.9309,0.9355,0.9091,0.4545,0.6061
-KNN_Post_test_STDs_SMOTE,Random Forest,0.15,0.9729,0.9349,0.9091,0.4348,0.5882
-KNN_Post_test_condy_SMOTE,Random Forest,0.15,0.9618,0.9161,0.9091,0.4348,0.5882
-KNN_Post_test_standard_SMOTE,Support Vector Machine,0.35,0.9642,0.9114,0.9091,0.4348,0.5882
-MEDIAN_Post_test_STDs_SMOTE,Support Vector Machine,0.35,0.9602,0.912,0.9091,0.4348,0.5882
-MEDIAN_Post_test_standard_SMOTE,Support Vector Machine,0.35,0.9615,0.9085,0.9091,0.4348,0.5882
-MEDIAN_Post_test_condy_NoSMOTE,Random Forest,0.15,0.9488,0.9452,0.9091,0.4167,0.5714
-MEDIAN_Post_test_standard_SMOTE,Random Forest,0.15,0.9562,0.9279,0.9091,0.4167,0.5714
-MEDIAN_Post_test_STDs_NoSMOTE,Random Forest,0.15,0.9657,0.9346,0.9091,0.4,0.5556
-MEDIAN_Post_test_STDs_SMOTE,Random Forest,0.15,0.958,0.9109,0.9091,0.4,0.5556
-KNN_Post_test_STDs_SMOTE,Support Vector Machine,0.25,0.9655,0.915,0.9091,0.3704,0.5263
-KNN_Post_test_condy_SMOTE,Support Vector Machine,0.15,0.9629,0.915,0.9091,0.3704,0.5263
-KNN_Post_test_condy_SMOTE,Support Vector Machine,0.25,0.9629,0.915,0.9091,0.3704,0.5263
-KNN_Post_test_standard_SMOTE,Support Vector Machine,0.15,0.9642,0.9114,0.9091,0.3704,0.5263
-KNN_Post_test_standard_SMOTE,Support Vector Machine,0.25,0.9642,0.9114,0.9091,0.3704,0.5263
-MEDIAN_Post_test_STDs_SMOTE,Support Vector Machine,0.25,0.9602,0.912,0.9091,0.3704,0.5263
-MEDIAN_Post_test_condy_SMOTE,Support Vector Machine,0.15,0.9602,0.9109,0.9091,0.3704,0.5263
-MEDIAN_Post_test_condy_SMOTE,Support Vector Machine,0.25,0.9602,0.9109,0.9091,0.3704,0.5263
-MEDIAN_Post_test_standard_SMOTE,Support Vector Machine,0.15,0.9615,0.9085,0.9091,0.3704,0.5263
-MEDIAN_Post_test_standard_SMOTE,Support Vector Machine,0.25,0.9615,0.9085,0.9091,0.3704,0.5263
-KNN_Post_test_STDs_SMOTE,Support Vector Machine,0.15,0.9655,0.915,0.9091,0.3571,0.5128
-MEDIAN_Post_test_STDs_SMOTE,Support Vector Machine,0.15,0.9602,0.912,0.9091,0.3571,0.5128
-MEDIAN_Post_test_STDs_NoSMOTE,XGBoost,0.25,0.9633,0.9238,0.9091,0.2778,0.4255
-MEDIAN_Post_test_condy_NoSMOTE,XGBoost,0.25,0.9633,0.9238,0.9091,0.2778,0.4255
-MEDIAN_Post_test_standard_NoSMOTE,XGBoost,0.25,0.9633,0.9238,0.9091,0.2778,0.4255
-KNN_Post_test_STDs_NoSMOTE,Logistic Regression,0.15,0.9684,0.9437,0.9091,0.2632,0.4082
-KNN_Post_test_standard_NoSMOTE,Logistic Regression,0.15,0.9682,0.9431,0.9091,0.2632,0.4082
-MEDIAN_Post_test_STDs_NoSMOTE,Logistic Regression,0.15,0.9639,0.9367,0.9091,0.2564,0.4
-MEDIAN_Post_test_condy_NoSMOTE,Logistic Regression,0.15,0.9633,0.9367,0.9091,0.2564,0.4
-MEDIAN_Post_test_standard_NoSMOTE,Logistic Regression,0.15,0.9633,0.9367,0.9091,0.2564,0.4
-MEDIAN_Post_test_STDs_NoSMOTE,XGBoost,0.15,0.9633,0.9238,0.9091,0.1562,0.2667
-MEDIAN_Post_test_condy_NoSMOTE,XGBoost,0.15,0.9633,0.9238,0.9091,0.1562,0.2667
-MEDIAN_Post_test_standard_NoSMOTE,XGBoost,0.15,0.9633,0.9238,0.9091,0.1562,0.2667
-KNN_Pre_Screen_STDs_SMOTE,Support Vector Machine,0.25,0.748,0.7173,0.9091,0.0826,0.1515
-KNN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.25,0.7464,0.7114,0.9091,0.082,0.1504
-KNN_Pre_Screen_condy_SMOTE,Support Vector Machine,0.25,0.7457,0.7191,0.9091,0.0794,0.146
-MEDIAN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.25,0.7301,0.7073,0.9091,0.0725,0.1342
-MEDIAN_Pre_Screen_STDs_SMOTE,Support Vector Machine,0.25,0.735,0.7132,0.9091,0.0699,0.1299
-MEDIAN_Pre_Screen_condy_SMOTE,Support Vector Machine,0.25,0.7321,0.7179,0.9091,0.0676,0.1258
-MEDIAN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.25,0.6546,0.654,0.9091,0.0645,0.1205
-MEDIAN_Pre_Screen_condy_NoSMOTE,Logistic Regression,0.25,0.6512,0.6551,0.9091,0.0645,0.1205
-KNN_Post_test_STDs_NoSMOTE,Random Forest,0.35,0.9675,0.9672,0.8182,0.75,0.7826
-KNN_Post_test_STDs_SMOTE,XGBoost,0.15,0.9733,0.929,0.8182,0.75,0.7826
-KNN_Post_test_condy_SMOTE,XGBoost,0.35,0.9735,0.9079,0.8182,0.75,0.7826
-KNN_Post_test_condy_SMOTE,XGBoost,0.15,0.9735,0.9079,0.8182,0.6923,0.75
-KNN_Post_test_condy_SMOTE,XGBoost,0.25,0.9735,0.9079,0.8182,0.6923,0.75
-KNN_Post_test_standard_SMOTE,XGBoost,0.15,0.974,0.9308,0.8182,0.6923,0.75
-MEDIAN_Post_test_STDs_SMOTE,XGBoost,0.25,0.9619,0.9073,0.8182,0.6923,0.75
-MEDIAN_Post_test_STDs_SMOTE,XGBoost,0.35,0.9619,0.9073,0.8182,0.6923,0.75
-MEDIAN_Post_test_STDs_SMOTE,XGBoost,0.5,0.9619,0.9073,0.8182,0.6923,0.75
-MEDIAN_Post_test_condy_SMOTE,XGBoost,0.25,0.9644,0.9047,0.8182,0.6923,0.75
-MEDIAN_Post_test_condy_SMOTE,XGBoost,0.35,0.9644,0.9047,0.8182,0.6923,0.75
-MEDIAN_Post_test_condy_SMOTE,XGBoost,0.5,0.9644,0.9047,0.8182,0.6923,0.75
-MEDIAN_Post_test_standard_SMOTE,XGBoost,0.25,0.9646,0.9056,0.8182,0.6923,0.75
-MEDIAN_Post_test_standard_SMOTE,XGBoost,0.35,0.9646,0.9056,0.8182,0.6923,0.75
-MEDIAN_Post_test_standard_SMOTE,XGBoost,0.5,0.9646,0.9056,0.8182,0.6923,0.75
-KNN_Post_test_condy_SMOTE,Random Forest,0.35,0.9618,0.9161,0.8182,0.6429,0.72
-KNN_Post_test_standard_SMOTE,Random Forest,0.35,0.9667,0.9097,0.8182,0.6429,0.72
-MEDIAN_Post_test_STDs_SMOTE,Logistic Regression,0.5,0.9307,0.9355,0.8182,0.6429,0.72
-MEDIAN_Post_test_STDs_SMOTE,Random Forest,0.35,0.958,0.9109,0.8182,0.6429,0.72
-MEDIAN_Post_test_condy_SMOTE,Logistic Regression,0.5,0.9307,0.9355,0.8182,0.6429,0.72
-MEDIAN_Post_test_condy_SMOTE,Random Forest,0.35,0.9558,0.915,0.8182,0.6429,0.72
-MEDIAN_Post_test_standard_SMOTE,Logistic Regression,0.5,0.9309,0.9355,0.8182,0.6429,0.72
-KNN_Post_test_STDs_SMOTE,Logistic Regression,0.5,0.9356,0.9466,0.8182,0.6,0.6923
-KNN_Post_test_condy_SMOTE,Logistic Regression,0.5,0.9565,0.9443,0.8182,0.6,0.6923
-KNN_Post_test_standard_SMOTE,Logistic Regression,0.5,0.9564,0.9449,0.8182,0.6,0.6923
-KNN_Post_test_condy_SMOTE,Support Vector Machine,0.5,0.9629,0.915,0.8182,0.5625,0.6667
-KNN_Post_test_standard_SMOTE,Support Vector Machine,0.5,0.9642,0.9114,0.8182,0.5625,0.6667
-MEDIAN_Post_test_condy_SMOTE,Support Vector Machine,0.5,0.9602,0.9109,0.8182,0.5625,0.6667
-KNN_Post_test_STDs_SMOTE,Support Vector Machine,0.5,0.9655,0.915,0.8182,0.5294,0.6429
-MEDIAN_Post_test_STDs_SMOTE,Support Vector Machine,0.5,0.9602,0.912,0.8182,0.5294,0.6429
-MEDIAN_Post_test_standard_SMOTE,Support Vector Machine,0.5,0.9615,0.9085,0.8182,0.5294,0.6429
-MEDIAN_Pre_Screen_standard_SMOTE,XGBoost,0.25,0.6562,0.627,0.8182,0.0756,0.1385
-MEDIAN_Pre_Screen_STDs_SMOTE,XGBoost,0.25,0.6745,0.6317,0.8182,0.0756,0.1385
-MEDIAN_Pre_Screen_condy_SMOTE,XGBoost,0.25,0.6579,0.6305,0.8182,0.0756,0.1385
-KNN_Pre_Screen_condy_SMOTE,XGBoost,0.25,0.7079,0.6117,0.8182,0.0703,0.1295
-KNN_Post_test_STDs_SMOTE,Random Forest,0.5,0.9729,0.9349,0.7273,0.8,0.7619
-KNN_Post_test_condy_NoSMOTE,Random Forest,0.35,0.9731,0.9188,0.7273,0.8,0.7619
-KNN_Post_test_standard_SMOTE,Random Forest,0.5,0.9667,0.9097,0.7273,0.8,0.7619
-KNN_Post_test_standard_SMOTE,XGBoost,0.5,0.974,0.9308,0.7273,0.8,0.7619
-MEDIAN_Post_test_STDs_SMOTE,Random Forest,0.5,0.958,0.9109,0.7273,0.8,0.7619
-KNN_Post_test_STDs_SMOTE,XGBoost,0.25,0.9733,0.929,0.7273,0.7273,0.7273
-KNN_Post_test_STDs_SMOTE,XGBoost,0.35,0.9733,0.929,0.7273,0.7273,0.7273
-KNN_Post_test_condy_SMOTE,XGBoost,0.5,0.9735,0.9079,0.7273,0.7273,0.7273
-KNN_Post_test_standard_SMOTE,XGBoost,0.25,0.974,0.9308,0.7273,0.7273,0.7273
-KNN_Post_test_standard_SMOTE,XGBoost,0.35,0.974,0.9308,0.7273,0.7273,0.7273
-MEDIAN_Post_test_condy_NoSMOTE,Random Forest,0.5,0.9488,0.9452,0.7273,0.7273,0.7273
-MEDIAN_Post_test_standard_SMOTE,Random Forest,0.5,0.9562,0.9279,0.7273,0.7273,0.7273
-MEDIAN_Post_test_standard_NoSMOTE,Random Forest,0.35,0.9577,0.9443,0.7273,0.6667,0.6957
-KNN_Post_test_condy_NoSMOTE,Support Vector Machine,0.25,0.9544,0.929,0.7273,0.5714,0.64
-MEDIAN_Post_test_condy_NoSMOTE,Support Vector Machine,0.25,0.9584,0.9232,0.7273,0.5714,0.64
-KNN_Post_test_STDs_NoSMOTE,Support Vector Machine,0.25,0.9636,0.9284,0.7273,0.5333,0.6154
-KNN_Post_test_standard_NoSMOTE,Support Vector Machine,0.25,0.9544,0.9267,0.7273,0.5333,0.6154
-MEDIAN_Post_test_STDs_NoSMOTE,Support Vector Machine,0.25,0.9671,0.9232,0.7273,0.5333,0.6154
-MEDIAN_Post_test_standard_NoSMOTE,Support Vector Machine,0.25,0.9597,0.9202,0.7273,0.5333,0.6154
-KNN_Pre_Screen_STDs_SMOTE,XGBoost,0.25,0.7069,0.5953,0.7273,0.0714,0.1301
-KNN_Pre_Screen_standard_SMOTE,XGBoost,0.25,0.7077,0.5636,0.7273,0.0667,0.1221
-KNN_Pre_Screen_standard_SMOTE,Logistic Regression,0.25,0.6388,0.5413,0.7273,0.0606,0.1119
-KNN_Pre_Screen_STDs_SMOTE,Logistic Regression,0.25,0.6417,0.5519,0.7273,0.0606,0.1119
-KNN_Pre_Screen_condy_SMOTE,Logistic Regression,0.25,0.6372,0.5466,0.7273,0.0606,0.1119
-KNN_Post_test_STDs_SMOTE,XGBoost,0.5,0.9733,0.929,0.6364,0.7778,0.7
-MEDIAN_Post_test_STDs_NoSMOTE,Random Forest,0.5,0.9657,0.9346,0.6364,0.7778,0.7
-KNN_Post_test_standard_NoSMOTE,Random Forest,0.35,0.9689,0.9188,0.6364,0.7,0.6667
-KNN_Post_test_STDs_NoSMOTE,Support Vector Machine,0.35,0.9636,0.9284,0.6364,0.6364,0.6364
-KNN_Post_test_condy_NoSMOTE,Support Vector Machine,0.35,0.9544,0.929,0.6364,0.6364,0.6364
-KNN_Post_test_standard_NoSMOTE,Support Vector Machine,0.35,0.9544,0.9267,0.6364,0.6364,0.6364
-MEDIAN_Post_test_STDs_NoSMOTE,Support Vector Machine,0.35,0.9671,0.9232,0.6364,0.6364,0.6364
-MEDIAN_Post_test_condy_NoSMOTE,Support Vector Machine,0.35,0.9584,0.9232,0.6364,0.6364,0.6364
-MEDIAN_Post_test_standard_NoSMOTE,Support Vector Machine,0.35,0.9597,0.9202,0.6364,0.6364,0.6364
-KNN_Pre_Screen_STDs_NoSMOTE,Random Forest,0.15,0.7433,0.6821,0.6364,0.1628,0.2593
-KNN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.35,0.7464,0.7114,0.6364,0.1556,0.25
-KNN_Pre_Screen_STDs_SMOTE,Support Vector Machine,0.35,0.748,0.7173,0.6364,0.1556,0.25
-KNN_Pre_Screen_condy_SMOTE,Support Vector Machine,0.35,0.7457,0.7191,0.6364,0.1556,0.25
-MEDIAN_Pre_Screen_condy_SMOTE,Support Vector Machine,0.35,0.7321,0.7179,0.6364,0.1556,0.25
-MEDIAN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.35,0.7301,0.7073,0.6364,0.1522,0.2456
-MEDIAN_Pre_Screen_STDs_SMOTE,Support Vector Machine,0.35,0.735,0.7132,0.6364,0.1522,0.2456
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Random Forest,0.15,0.6852,0.7132,0.6364,0.1429,0.2333
-KNN_Post_test_condy_SMOTE,Random Forest,0.5,0.9618,0.9161,0.5455,0.75,0.6316
-MEDIAN_Post_test_condy_SMOTE,Random Forest,0.5,0.9558,0.915,0.5455,0.6667,0.6
-KNN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.5,0.7464,0.7114,0.5455,0.1935,0.2857
-KNN_Pre_Screen_STDs_SMOTE,Support Vector Machine,0.5,0.748,0.7173,0.5455,0.1935,0.2857
-KNN_Pre_Screen_condy_SMOTE,Support Vector Machine,0.5,0.7457,0.7191,0.5455,0.1935,0.2857
-MEDIAN_Pre_Screen_condy_SMOTE,Support Vector Machine,0.5,0.7321,0.7179,0.5455,0.1935,0.2857
-MEDIAN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.5,0.7301,0.7073,0.5455,0.1875,0.2791
-MEDIAN_Pre_Screen_STDs_SMOTE,Support Vector Machine,0.5,0.735,0.7132,0.5455,0.1875,0.2791
-KNN_Pre_Screen_standard_NoSMOTE,Random Forest,0.15,0.711,0.6754,0.5455,0.1429,0.2264
-KNN_Pre_Screen_condy_NoSMOTE,Random Forest,0.15,0.7365,0.6733,0.5455,0.1333,0.2143
-MEDIAN_Pre_Screen_standard_NoSMOTE,Random Forest,0.15,0.6676,0.6985,0.5455,0.1333,0.2143
-MEDIAN_Pre_Screen_condy_NoSMOTE,Random Forest,0.15,0.6666,0.6886,0.5455,0.1304,0.2105
-KNN_Pre_Screen_STDs_SMOTE,Random Forest,0.15,0.7393,0.6466,0.5455,0.12,0.1967
-MEDIAN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.35,0.6546,0.654,0.5455,0.1154,0.1905
-MEDIAN_Pre_Screen_condy_NoSMOTE,Logistic Regression,0.35,0.6512,0.6551,0.5455,0.1154,0.1905
-MEDIAN_Pre_Screen_condy_SMOTE,Random Forest,0.15,0.7151,0.6472,0.5455,0.1071,0.1791
-MEDIAN_Pre_Screen_STDs_SMOTE,Random Forest,0.15,0.7104,0.6358,0.5455,0.1053,0.1765
-KNN_Pre_Screen_condy_NoSMOTE,Logistic Regression,0.35,0.6644,0.6158,0.5455,0.0923,0.1579
-KNN_Pre_Screen_STDs_NoSMOTE,Logistic Regression,0.35,0.672,0.6164,0.5455,0.0909,0.1558
-KNN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.35,0.6677,0.6129,0.5455,0.0882,0.1519
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Logistic Regression,0.35,0.6597,0.6211,0.5455,0.087,0.15
-KNN_Pre_Screen_STDs_SMOTE,Logistic Regression,0.35,0.6417,0.5519,0.5455,0.0779,0.1364
-KNN_Pre_Screen_condy_SMOTE,Logistic Regression,0.35,0.6372,0.5466,0.5455,0.0769,0.1348
-KNN_Pre_Screen_standard_SMOTE,Logistic Regression,0.35,0.6388,0.5413,0.5455,0.0732,0.129
-KNN_Post_test_STDs_NoSMOTE,Random Forest,0.5,0.9675,0.9672,0.4545,0.7143,0.5556
-MEDIAN_Post_test_standard_NoSMOTE,Random Forest,0.5,0.9577,0.9443,0.4545,0.7143,0.5556
-KNN_Pre_Screen_condy_NoSMOTE,Support Vector Machine,0.15,0.7148,0.732,0.4545,0.2174,0.2941
-MEDIAN_Pre_Screen_standard_NoSMOTE,XGBoost,0.35,0.6532,0.6692,0.4545,0.2174,0.2941
-MEDIAN_Pre_Screen_STDs_NoSMOTE,XGBoost,0.35,0.6532,0.6692,0.4545,0.2174,0.2941
-MEDIAN_Pre_Screen_condy_NoSMOTE,XGBoost,0.35,0.6527,0.6692,0.4545,0.2174,0.2941
-KNN_Pre_Screen_STDs_NoSMOTE,Support Vector Machine,0.15,0.7671,0.7314,0.4545,0.2083,0.2857
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Support Vector Machine,0.15,0.7037,0.7349,0.4545,0.2083,0.2857
-MEDIAN_Pre_Screen_standard_NoSMOTE,XGBoost,0.25,0.6532,0.6692,0.4545,0.1667,0.2439
-MEDIAN_Pre_Screen_STDs_NoSMOTE,XGBoost,0.25,0.6532,0.6692,0.4545,0.1667,0.2439
-MEDIAN_Pre_Screen_condy_NoSMOTE,XGBoost,0.25,0.6527,0.6692,0.4545,0.1667,0.2439
-MEDIAN_Pre_Screen_standard_NoSMOTE,XGBoost,0.15,0.6532,0.6692,0.4545,0.122,0.1923
-MEDIAN_Pre_Screen_STDs_NoSMOTE,XGBoost,0.15,0.6532,0.6692,0.4545,0.122,0.1923
-MEDIAN_Pre_Screen_condy_NoSMOTE,XGBoost,0.15,0.6527,0.6692,0.4545,0.122,0.1923
-KNN_Pre_Screen_condy_SMOTE,Random Forest,0.15,0.7125,0.6452,0.4545,0.1042,0.1695
-KNN_Pre_Screen_standard_SMOTE,Random Forest,0.15,0.7604,0.6575,0.4545,0.1,0.1639
-MEDIAN_Pre_Screen_standard_SMOTE,XGBoost,0.35,0.6562,0.627,0.4545,0.1,0.1639
-MEDIAN_Pre_Screen_standard_SMOTE,Random Forest,0.15,0.6751,0.6402,0.4545,0.0893,0.1493
-KNN_Post_test_condy_NoSMOTE,Random Forest,0.5,0.9731,0.9188,0.3636,0.6667,0.4706
-KNN_Post_test_standard_NoSMOTE,Random Forest,0.5,0.9689,0.9188,0.3636,0.6667,0.4706
-MEDIAN_Post_test_standard_NoSMOTE,Support Vector Machine,0.5,0.9597,0.9202,0.3636,0.5,0.4211
-MEDIAN_Pre_Screen_standard_NoSMOTE,Random Forest,0.25,0.6676,0.6985,0.3636,0.1905,0.25
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Random Forest,0.25,0.6852,0.7132,0.3636,0.1905,0.25
-KNN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.15,0.7114,0.7249,0.3636,0.1818,0.2424
-MEDIAN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.15,0.7033,0.7296,0.3636,0.1818,0.2424
-MEDIAN_Pre_Screen_condy_NoSMOTE,Support Vector Machine,0.15,0.6998,0.7372,0.3636,0.1818,0.2424
-KNN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.5,0.6677,0.6129,0.3636,0.1739,0.2353
-KNN_Pre_Screen_STDs_NoSMOTE,Logistic Regression,0.5,0.672,0.6164,0.3636,0.1739,0.2353
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Logistic Regression,0.5,0.6597,0.6211,0.3636,0.1739,0.2353
-KNN_Pre_Screen_standard_NoSMOTE,Random Forest,0.25,0.711,0.6754,0.3636,0.1667,0.2286
-KNN_Pre_Screen_condy_NoSMOTE,Logistic Regression,0.5,0.6644,0.6158,0.3636,0.1667,0.2286
-KNN_Pre_Screen_STDs_NoSMOTE,Random Forest,0.25,0.7433,0.6821,0.3636,0.16,0.2222
-MEDIAN_Pre_Screen_standard_SMOTE,Random Forest,0.25,0.6751,0.6402,0.3636,0.16,0.2222
-KNN_Pre_Screen_condy_SMOTE,Random Forest,0.25,0.7125,0.6452,0.3636,0.1538,0.2162
-KNN_Pre_Screen_standard_SMOTE,Random Forest,0.25,0.7604,0.6575,0.3636,0.1481,0.2105
-KNN_Pre_Screen_STDs_SMOTE,Random Forest,0.25,0.7393,0.6466,0.3636,0.1481,0.2105
-MEDIAN_Pre_Screen_STDs_SMOTE,Random Forest,0.25,0.7104,0.6358,0.3636,0.1481,0.2105
-MEDIAN_Pre_Screen_condy_SMOTE,Random Forest,0.25,0.7151,0.6472,0.3636,0.1481,0.2105
-KNN_Pre_Screen_standard_NoSMOTE,XGBoost,0.15,0.6959,0.6375,0.3636,0.125,0.186
-KNN_Pre_Screen_STDs_NoSMOTE,XGBoost,0.15,0.6959,0.6375,0.3636,0.125,0.186
-KNN_Pre_Screen_condy_NoSMOTE,XGBoost,0.15,0.6957,0.6375,0.3636,0.125,0.186
-KNN_Pre_Screen_standard_SMOTE,XGBoost,0.35,0.7077,0.5636,0.3636,0.1026,0.16
-KNN_Pre_Screen_condy_SMOTE,XGBoost,0.35,0.7079,0.6117,0.3636,0.1026,0.16
-MEDIAN_Pre_Screen_condy_SMOTE,XGBoost,0.35,0.6579,0.6305,0.3636,0.08,0.1311
-KNN_Post_test_STDs_NoSMOTE,Support Vector Machine,0.5,0.9636,0.9284,0.2727,0.4286,0.3333
-KNN_Post_test_condy_NoSMOTE,Support Vector Machine,0.5,0.9544,0.929,0.2727,0.4286,0.3333
-KNN_Post_test_standard_NoSMOTE,Support Vector Machine,0.5,0.9544,0.9267,0.2727,0.4286,0.3333
-MEDIAN_Post_test_STDs_NoSMOTE,Support Vector Machine,0.5,0.9671,0.9232,0.2727,0.4286,0.3333
-MEDIAN_Post_test_condy_NoSMOTE,Support Vector Machine,0.5,0.9584,0.9232,0.2727,0.4286,0.3333
-MEDIAN_Pre_Screen_standard_NoSMOTE,Random Forest,0.35,0.6676,0.6985,0.2727,0.25,0.2609
-MEDIAN_Pre_Screen_condy_NoSMOTE,Random Forest,0.35,0.6666,0.6886,0.2727,0.25,0.2609
-KNN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.25,0.7114,0.7249,0.2727,0.2308,0.25
-KNN_Pre_Screen_STDs_NoSMOTE,Support Vector Machine,0.25,0.7671,0.7314,0.2727,0.2308,0.25
-KNN_Pre_Screen_condy_NoSMOTE,Support Vector Machine,0.25,0.7148,0.732,0.2727,0.2308,0.25
-MEDIAN_Pre_Screen_standard_NoSMOTE,XGBoost,0.5,0.6532,0.6692,0.2727,0.2308,0.25
-MEDIAN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.25,0.7033,0.7296,0.2727,0.2308,0.25
-MEDIAN_Pre_Screen_STDs_NoSMOTE,XGBoost,0.5,0.6532,0.6692,0.2727,0.2308,0.25
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Support Vector Machine,0.25,0.7037,0.7349,0.2727,0.2308,0.25
-MEDIAN_Pre_Screen_condy_NoSMOTE,XGBoost,0.5,0.6527,0.6692,0.2727,0.2308,0.25
-MEDIAN_Pre_Screen_condy_NoSMOTE,Support Vector Machine,0.25,0.6998,0.7372,0.2727,0.2308,0.25
-KNN_Pre_Screen_STDs_NoSMOTE,Random Forest,0.35,0.7433,0.6821,0.2727,0.2143,0.24
-MEDIAN_Pre_Screen_standard_SMOTE,Logistic Regression,0.5,0.6307,0.5751,0.2727,0.2,0.2308
-MEDIAN_Pre_Screen_STDs_SMOTE,Logistic Regression,0.5,0.6336,0.6026,0.2727,0.2,0.2308
-MEDIAN_Pre_Screen_condy_SMOTE,Logistic Regression,0.5,0.6289,0.5762,0.2727,0.2,0.2308
-MEDIAN_Pre_Screen_condy_SMOTE,Random Forest,0.35,0.7151,0.6472,0.2727,0.2,0.2308
-MEDIAN_Pre_Screen_STDs_SMOTE,Random Forest,0.35,0.7104,0.6358,0.2727,0.1765,0.2143
-KNN_Pre_Screen_standard_SMOTE,Random Forest,0.35,0.7604,0.6575,0.2727,0.1667,0.2069
-KNN_Pre_Screen_STDs_SMOTE,Random Forest,0.35,0.7393,0.6466,0.2727,0.1667,0.2069
-KNN_Pre_Screen_condy_SMOTE,Random Forest,0.35,0.7125,0.6452,0.2727,0.1579,0.2
-MEDIAN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.5,0.6546,0.654,0.2727,0.15,0.1935
-MEDIAN_Pre_Screen_condy_NoSMOTE,Logistic Regression,0.5,0.6512,0.6551,0.2727,0.15,0.1935
-MEDIAN_Pre_Screen_condy_NoSMOTE,Random Forest,0.25,0.6666,0.6886,0.2727,0.15,0.1935
-KNN_Pre_Screen_standard_NoSMOTE,XGBoost,0.25,0.6959,0.6375,0.2727,0.125,0.1714
-KNN_Pre_Screen_STDs_NoSMOTE,XGBoost,0.25,0.6959,0.6375,0.2727,0.125,0.1714
-KNN_Pre_Screen_condy_NoSMOTE,Random Forest,0.25,0.7365,0.6733,0.2727,0.125,0.1714
-KNN_Pre_Screen_condy_NoSMOTE,XGBoost,0.25,0.6957,0.6375,0.2727,0.125,0.1714
-KNN_Pre_Screen_STDs_SMOTE,Logistic Regression,0.5,0.6417,0.5519,0.2727,0.12,0.1667
-KNN_Pre_Screen_standard_SMOTE,Logistic Regression,0.5,0.6388,0.5413,0.2727,0.1154,0.1622
-KNN_Pre_Screen_condy_SMOTE,Logistic Regression,0.5,0.6372,0.5466,0.2727,0.1154,0.1622
-KNN_Pre_Screen_STDs_SMOTE,XGBoost,0.35,0.7069,0.5953,0.2727,0.0833,0.1277
-MEDIAN_Pre_Screen_STDs_SMOTE,XGBoost,0.35,0.6745,0.6317,0.2727,0.0682,0.1091
-MEDIAN_Pre_Screen_condy_SMOTE,Random Forest,0.5,0.7151,0.6472,0.1818,0.6667,0.2857
-MEDIAN_Pre_Screen_STDs_SMOTE,Random Forest,0.5,0.7104,0.6358,0.1818,0.5,0.2667
-KNN_Pre_Screen_standard_NoSMOTE,Random Forest,0.5,0.711,0.6754,0.1818,0.4,0.25
-KNN_Pre_Screen_STDs_NoSMOTE,Random Forest,0.5,0.7433,0.6821,0.1818,0.3333,0.2353
-MEDIAN_Pre_Screen_standard_NoSMOTE,Random Forest,0.5,0.6676,0.6985,0.1818,0.3333,0.2353
-KNN_Pre_Screen_condy_NoSMOTE,Random Forest,0.5,0.7365,0.6733,0.1818,0.2857,0.2222
-MEDIAN_Pre_Screen_standard_SMOTE,Random Forest,0.5,0.6751,0.6402,0.1818,0.2857,0.2222
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Random Forest,0.5,0.6852,0.7132,0.1818,0.2857,0.2222
-KNN_Pre_Screen_standard_NoSMOTE,XGBoost,0.5,0.6959,0.6375,0.1818,0.25,0.2105
-KNN_Pre_Screen_standard_SMOTE,Random Forest,0.5,0.7604,0.6575,0.1818,0.25,0.2105
-KNN_Pre_Screen_STDs_NoSMOTE,XGBoost,0.5,0.6959,0.6375,0.1818,0.25,0.2105
-KNN_Pre_Screen_STDs_SMOTE,Random Forest,0.5,0.7393,0.6466,0.1818,0.25,0.2105
-KNN_Pre_Screen_condy_NoSMOTE,XGBoost,0.5,0.6957,0.6375,0.1818,0.25,0.2105
-MEDIAN_Pre_Screen_STDs_SMOTE,XGBoost,0.5,0.6745,0.6317,0.1818,0.25,0.2105
-MEDIAN_Pre_Screen_condy_NoSMOTE,Random Forest,0.5,0.6666,0.6886,0.1818,0.25,0.2105
-MEDIAN_Pre_Screen_condy_SMOTE,XGBoost,0.5,0.6579,0.6305,0.1818,0.25,0.2105
-MEDIAN_Pre_Screen_standard_SMOTE,XGBoost,0.5,0.6562,0.627,0.1818,0.2222,0.2
-KNN_Pre_Screen_condy_SMOTE,Random Forest,0.5,0.7125,0.6452,0.1818,0.2,0.1905
-MEDIAN_Pre_Screen_standard_SMOTE,Random Forest,0.35,0.6751,0.6402,0.1818,0.1818,0.1818
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Random Forest,0.35,0.6852,0.7132,0.1818,0.1818,0.1818
-KNN_Pre_Screen_standard_NoSMOTE,Random Forest,0.35,0.711,0.6754,0.1818,0.1667,0.1739
-KNN_Pre_Screen_standard_SMOTE,XGBoost,0.5,0.7077,0.5636,0.1818,0.1667,0.1739
-KNN_Pre_Screen_STDs_SMOTE,XGBoost,0.5,0.7069,0.5953,0.1818,0.1667,0.1739
-KNN_Pre_Screen_condy_NoSMOTE,Random Forest,0.35,0.7365,0.6733,0.1818,0.1538,0.1667
-KNN_Pre_Screen_standard_NoSMOTE,XGBoost,0.35,0.6959,0.6375,0.1818,0.125,0.1481
-KNN_Pre_Screen_STDs_NoSMOTE,XGBoost,0.35,0.6959,0.6375,0.1818,0.125,0.1481
-KNN_Pre_Screen_condy_NoSMOTE,XGBoost,0.35,0.6957,0.6375,0.1818,0.125,0.1481
-KNN_Pre_Screen_condy_SMOTE,XGBoost,0.5,0.7079,0.6117,0.1818,0.1176,0.1429
-KNN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.35,0.7114,0.7249,0.0,0.0,0.0
-KNN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.5,0.7114,0.7249,0.0,0.0,0.0
-KNN_Pre_Screen_STDs_NoSMOTE,Support Vector Machine,0.35,0.7671,0.7314,0.0,0.0,0.0
-KNN_Pre_Screen_STDs_NoSMOTE,Support Vector Machine,0.5,0.7671,0.7314,0.0,0.0,0.0
-KNN_Pre_Screen_condy_NoSMOTE,Support Vector Machine,0.35,0.7148,0.732,0.0,0.0,0.0
-KNN_Pre_Screen_condy_NoSMOTE,Support Vector Machine,0.5,0.7148,0.732,0.0,0.0,0.0
-MEDIAN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.35,0.7033,0.7296,0.0,0.0,0.0
-MEDIAN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.5,0.7033,0.7296,0.0,0.0,0.0
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Support Vector Machine,0.35,0.7037,0.7349,0.0,0.0,0.0
-MEDIAN_Pre_Screen_STDs_NoSMOTE,Support Vector Machine,0.5,0.7037,0.7349,0.0,0.0,0.0
-MEDIAN_Pre_Screen_condy_NoSMOTE,Support Vector Machine,0.35,0.6998,0.7372,0.0,0.0,0.0
-MEDIAN_Pre_Screen_condy_NoSMOTE,Support Vector Machine,0.5,0.6998,0.7372,0.0,0.0,0.0
+Experiment,Model,Threshold,CV_AUC,Test_AUC,Recall,Precision,F1_Score,Parameters
+KNN_Pre_Screen_standard_SMOTE,Logistic Regression,0.15,0.6332,0.5372,1.0,0.071,0.1325,"{'C': 0.1, 'l1_ratio': 1.0, 'penalty': 'elasticnet'}"
+KNN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.25,0.6888,0.6188,1.0,0.0696,0.1302,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.25,0.679,0.624,1.0,0.0692,0.1294,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Pre_Screen_standard_SMOTE,Logistic Regression,0.15,0.6256,0.5396,1.0,0.0671,0.1257,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+KNN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.15,0.6888,0.6188,1.0,0.0663,0.1243,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+KNN_Pre_Screen_standard_SMOTE,XGBoost,0.15,0.7138,0.5563,1.0,0.0663,0.1243,"{'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 100}"
+KNN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.15,0.7457,0.712,1.0,0.0663,0.1243,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.15,0.679,0.624,1.0,0.0663,0.1243,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Pre_Screen_standard_SMOTE,XGBoost,0.15,0.6486,0.639,1.0,0.0663,0.1243,"{'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 100}"
+MEDIAN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.15,0.7335,0.7097,1.0,0.0663,0.1243,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Post_test_standard_NoSMOTE,XGBoost,0.25,0.9778,0.9152,0.9091,0.7143,0.8,"{'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100}"
+KNN_Post_test_standard_NoSMOTE,XGBoost,0.35,0.9778,0.9152,0.9091,0.7143,0.8,"{'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100}"
+KNN_Post_test_standard_NoSMOTE,XGBoost,0.5,0.9778,0.9152,0.9091,0.7143,0.8,"{'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100}"
+MEDIAN_Post_test_standard_NoSMOTE,Random Forest,0.35,0.9613,0.9475,0.9091,0.7143,0.8,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 100}"
+MEDIAN_Post_test_standard_NoSMOTE,XGBoost,0.5,0.9633,0.9238,0.9091,0.7143,0.8,"{'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 200}"
+MEDIAN_Post_test_standard_SMOTE,XGBoost,0.25,0.9671,0.9126,0.9091,0.7143,0.8,"{'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100}"
+KNN_Post_test_standard_NoSMOTE,Random Forest,0.35,0.9696,0.9267,0.9091,0.6667,0.7692,"{'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 300}"
+MEDIAN_Post_test_standard_SMOTE,Random Forest,0.35,0.94,0.9267,0.9091,0.6667,0.7692,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+MEDIAN_Post_test_standard_SMOTE,XGBoost,0.15,0.9671,0.9126,0.9091,0.6667,0.7692,"{'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100}"
+KNN_Post_test_standard_NoSMOTE,XGBoost,0.15,0.9778,0.9152,0.9091,0.625,0.7407,"{'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100}"
+KNN_Post_test_standard_NoSMOTE,Logistic Regression,0.5,0.9682,0.9431,0.9091,0.5882,0.7143,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+KNN_Post_test_standard_SMOTE,Random Forest,0.25,0.9715,0.9161,0.9091,0.5882,0.7143,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 300}"
+MEDIAN_Post_test_standard_NoSMOTE,Logistic Regression,0.5,0.9633,0.9361,0.9091,0.5882,0.7143,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Post_test_standard_SMOTE,Random Forest,0.25,0.94,0.9267,0.9091,0.5882,0.7143,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+KNN_Post_test_standard_NoSMOTE,Random Forest,0.25,0.9696,0.9267,0.9091,0.5556,0.6897,"{'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 300}"
+KNN_Post_test_standard_NoSMOTE,Support Vector Machine,0.15,0.9548,0.9273,0.9091,0.5,0.6452,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Post_test_standard_NoSMOTE,Random Forest,0.25,0.9613,0.9475,0.9091,0.5,0.6452,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 100}"
+MEDIAN_Post_test_standard_NoSMOTE,Support Vector Machine,0.15,0.9595,0.9202,0.9091,0.5,0.6452,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Post_test_standard_NoSMOTE,Logistic Regression,0.35,0.9682,0.9431,0.9091,0.4762,0.625,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+KNN_Post_test_standard_SMOTE,Logistic Regression,0.25,0.9567,0.9255,0.9091,0.4762,0.625,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+KNN_Post_test_standard_SMOTE,Logistic Regression,0.35,0.9567,0.9255,0.9091,0.4762,0.625,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Post_test_standard_SMOTE,Logistic Regression,0.25,0.9318,0.922,0.9091,0.4762,0.625,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Post_test_standard_SMOTE,Logistic Regression,0.35,0.9318,0.922,0.9091,0.4762,0.625,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+KNN_Post_test_standard_NoSMOTE,Logistic Regression,0.25,0.9682,0.9431,0.9091,0.4545,0.6061,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+KNN_Post_test_standard_SMOTE,Logistic Regression,0.15,0.9567,0.9255,0.9091,0.4545,0.6061,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Post_test_standard_NoSMOTE,Logistic Regression,0.25,0.9633,0.9361,0.9091,0.4545,0.6061,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Post_test_standard_NoSMOTE,Logistic Regression,0.35,0.9633,0.9361,0.9091,0.4545,0.6061,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Post_test_standard_NoSMOTE,XGBoost,0.35,0.9633,0.9238,0.9091,0.4545,0.6061,"{'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 200}"
+MEDIAN_Post_test_standard_SMOTE,Logistic Regression,0.15,0.9318,0.922,0.9091,0.4545,0.6061,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Post_test_standard_SMOTE,Support Vector Machine,0.35,0.9616,0.9132,0.9091,0.4545,0.6061,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Post_test_standard_SMOTE,Random Forest,0.15,0.9715,0.9161,0.9091,0.4348,0.5882,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 300}"
+MEDIAN_Post_test_standard_SMOTE,Random Forest,0.15,0.94,0.9267,0.9091,0.4348,0.5882,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+KNN_Post_test_standard_NoSMOTE,Random Forest,0.15,0.9696,0.9267,0.9091,0.4,0.5556,"{'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 300}"
+MEDIAN_Post_test_standard_NoSMOTE,Random Forest,0.15,0.9613,0.9475,0.9091,0.4,0.5556,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 100}"
+KNN_Post_test_standard_SMOTE,Support Vector Machine,0.15,0.9637,0.9138,0.9091,0.3846,0.5405,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Post_test_standard_SMOTE,Support Vector Machine,0.25,0.9637,0.9138,0.9091,0.3846,0.5405,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Post_test_standard_SMOTE,Support Vector Machine,0.15,0.9616,0.9132,0.9091,0.3846,0.5405,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Post_test_standard_SMOTE,Support Vector Machine,0.25,0.9616,0.9132,0.9091,0.3846,0.5405,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Post_test_standard_NoSMOTE,XGBoost,0.25,0.9633,0.9238,0.9091,0.2778,0.4255,"{'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 200}"
+KNN_Post_test_standard_NoSMOTE,Logistic Regression,0.15,0.9682,0.9431,0.9091,0.2632,0.4082,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Post_test_standard_NoSMOTE,Logistic Regression,0.15,0.9633,0.9361,0.9091,0.2564,0.4,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Post_test_standard_NoSMOTE,XGBoost,0.15,0.9633,0.9238,0.9091,0.1562,0.2667,"{'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 200}"
+KNN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.25,0.7457,0.712,0.9091,0.0877,0.16,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.25,0.7335,0.7097,0.9091,0.0725,0.1342,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Post_test_standard_SMOTE,XGBoost,0.15,0.9744,0.9314,0.8182,0.6923,0.75,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+MEDIAN_Post_test_standard_SMOTE,XGBoost,0.35,0.9671,0.9126,0.8182,0.6923,0.75,"{'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100}"
+MEDIAN_Post_test_standard_SMOTE,XGBoost,0.5,0.9671,0.9126,0.8182,0.6923,0.75,"{'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100}"
+KNN_Post_test_standard_SMOTE,Random Forest,0.35,0.9715,0.9161,0.8182,0.6429,0.72,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 300}"
+KNN_Post_test_standard_SMOTE,Support Vector Machine,0.5,0.9637,0.9138,0.8182,0.6,0.6923,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Post_test_standard_SMOTE,Support Vector Machine,0.5,0.9616,0.9132,0.8182,0.6,0.6923,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Post_test_standard_SMOTE,Logistic Regression,0.5,0.9567,0.9255,0.8182,0.5625,0.6667,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Post_test_standard_SMOTE,Logistic Regression,0.5,0.9318,0.922,0.8182,0.5625,0.6667,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+KNN_Post_test_standard_SMOTE,Support Vector Machine,0.35,0.9637,0.9138,0.8182,0.4286,0.5625,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Pre_Screen_standard_SMOTE,Logistic Regression,0.25,0.6256,0.5396,0.8182,0.0596,0.1111,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+KNN_Post_test_standard_SMOTE,XGBoost,0.5,0.9744,0.9314,0.7273,0.8,0.7619,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+MEDIAN_Post_test_standard_SMOTE,Random Forest,0.5,0.94,0.9267,0.7273,0.8,0.7619,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+KNN_Post_test_standard_SMOTE,XGBoost,0.25,0.9744,0.9314,0.7273,0.7273,0.7273,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+KNN_Post_test_standard_SMOTE,XGBoost,0.35,0.9744,0.9314,0.7273,0.7273,0.7273,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+KNN_Post_test_standard_NoSMOTE,Support Vector Machine,0.25,0.9548,0.9273,0.7273,0.5333,0.6154,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Post_test_standard_NoSMOTE,Support Vector Machine,0.25,0.9595,0.9202,0.7273,0.5333,0.6154,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Pre_Screen_standard_SMOTE,XGBoost,0.25,0.6486,0.639,0.7273,0.0684,0.125,"{'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 100}"
+KNN_Pre_Screen_standard_SMOTE,XGBoost,0.25,0.7138,0.5563,0.7273,0.0672,0.1231,"{'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 100}"
+KNN_Pre_Screen_standard_SMOTE,Logistic Regression,0.25,0.6332,0.5372,0.7273,0.0593,0.1096,"{'C': 0.1, 'l1_ratio': 1.0, 'penalty': 'elasticnet'}"
+KNN_Post_test_standard_NoSMOTE,Random Forest,0.5,0.9696,0.9267,0.6364,0.7778,0.7,"{'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 300}"
+MEDIAN_Post_test_standard_NoSMOTE,Random Forest,0.5,0.9613,0.9475,0.6364,0.7778,0.7,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 100}"
+KNN_Post_test_standard_NoSMOTE,Support Vector Machine,0.35,0.9548,0.9273,0.6364,0.6364,0.6364,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Post_test_standard_NoSMOTE,Support Vector Machine,0.35,0.9595,0.9202,0.6364,0.6364,0.6364,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Pre_Screen_standard_NoSMOTE,Random Forest,0.15,0.7118,0.688,0.6364,0.1628,0.2593,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+KNN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.35,0.7457,0.712,0.6364,0.1522,0.2456,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.35,0.7335,0.7097,0.6364,0.1489,0.2414,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Random Forest,0.15,0.6759,0.6862,0.6364,0.1429,0.2333,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+KNN_Post_test_standard_SMOTE,Random Forest,0.5,0.9715,0.9161,0.5455,0.75,0.6316,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 300}"
+KNN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.5,0.7457,0.712,0.5455,0.1935,0.2857,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Pre_Screen_standard_SMOTE,Support Vector Machine,0.5,0.7335,0.7097,0.5455,0.1935,0.2857,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.35,0.6888,0.6188,0.5455,0.0845,0.1463,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.35,0.679,0.624,0.5455,0.0822,0.1429,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+KNN_Pre_Screen_standard_SMOTE,Logistic Regression,0.35,0.6332,0.5372,0.5455,0.0714,0.1263,"{'C': 0.1, 'l1_ratio': 1.0, 'penalty': 'elasticnet'}"
+MEDIAN_Pre_Screen_standard_SMOTE,Logistic Regression,0.35,0.6256,0.5396,0.5455,0.0619,0.1111,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.5,0.679,0.624,0.4545,0.2381,0.3125,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,XGBoost,0.35,0.6574,0.6768,0.4545,0.2381,0.3125,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,XGBoost,0.25,0.6574,0.6768,0.4545,0.1667,0.2439,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+KNN_Pre_Screen_standard_SMOTE,Random Forest,0.25,0.7286,0.6472,0.4545,0.1613,0.2381,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 100}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,XGBoost,0.15,0.6574,0.6768,0.4545,0.125,0.1961,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+MEDIAN_Pre_Screen_standard_SMOTE,XGBoost,0.35,0.6486,0.639,0.4545,0.1136,0.1818,"{'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 100}"
+KNN_Pre_Screen_standard_SMOTE,Random Forest,0.15,0.7286,0.6472,0.4545,0.1111,0.1786,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 100}"
+MEDIAN_Pre_Screen_standard_SMOTE,Random Forest,0.15,0.6886,0.6352,0.4545,0.098,0.1613,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 300}"
+KNN_Post_test_standard_NoSMOTE,Support Vector Machine,0.5,0.9548,0.9273,0.3636,0.5,0.4211,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Post_test_standard_NoSMOTE,Support Vector Machine,0.5,0.9595,0.9202,0.3636,0.5,0.4211,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.15,0.7114,0.729,0.3636,0.2,0.2581,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.15,0.7044,0.7326,0.3636,0.2,0.2581,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Pre_Screen_standard_NoSMOTE,Logistic Regression,0.5,0.6888,0.6188,0.3636,0.1905,0.25,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Pre_Screen_standard_SMOTE,Logistic Regression,0.5,0.6256,0.5396,0.3636,0.1739,0.2353,"{'C': 0.01, 'l1_ratio': 0.0, 'penalty': 'elasticnet'}"
+MEDIAN_Pre_Screen_standard_SMOTE,Random Forest,0.25,0.6886,0.6352,0.3636,0.1379,0.2,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 300}"
+KNN_Pre_Screen_standard_NoSMOTE,XGBoost,0.15,0.7072,0.6223,0.3636,0.1111,0.1702,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+MEDIAN_Pre_Screen_standard_SMOTE,Random Forest,0.35,0.6886,0.6352,0.2727,0.2308,0.25,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 300}"
+KNN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.25,0.7114,0.729,0.2727,0.2143,0.24,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.25,0.7044,0.7326,0.2727,0.2143,0.24,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Pre_Screen_standard_NoSMOTE,XGBoost,0.25,0.7072,0.6223,0.2727,0.1304,0.1765,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+KNN_Pre_Screen_standard_SMOTE,Logistic Regression,0.5,0.6332,0.5372,0.2727,0.12,0.1667,"{'C': 0.1, 'l1_ratio': 1.0, 'penalty': 'elasticnet'}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Random Forest,0.25,0.6759,0.6862,0.2727,0.12,0.1667,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+KNN_Pre_Screen_standard_NoSMOTE,Random Forest,0.25,0.7118,0.688,0.2727,0.1154,0.1622,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+KNN_Pre_Screen_standard_SMOTE,XGBoost,0.35,0.7138,0.5563,0.2727,0.0789,0.1224,"{'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 100}"
+KNN_Pre_Screen_standard_SMOTE,Random Forest,0.5,0.7286,0.6472,0.1818,0.4,0.25,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 100}"
+MEDIAN_Pre_Screen_standard_SMOTE,Random Forest,0.5,0.6886,0.6352,0.1818,0.4,0.25,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 300}"
+KNN_Pre_Screen_standard_NoSMOTE,Random Forest,0.5,0.7118,0.688,0.1818,0.3333,0.2353,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Random Forest,0.5,0.6759,0.6862,0.1818,0.2857,0.2222,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+MEDIAN_Pre_Screen_standard_SMOTE,XGBoost,0.5,0.6486,0.639,0.1818,0.25,0.2105,"{'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 100}"
+KNN_Pre_Screen_standard_NoSMOTE,XGBoost,0.5,0.7072,0.6223,0.1818,0.2222,0.2,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,XGBoost,0.5,0.6574,0.6768,0.1818,0.1818,0.1818,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+KNN_Pre_Screen_standard_NoSMOTE,Random Forest,0.35,0.7118,0.688,0.1818,0.1667,0.1739,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Random Forest,0.35,0.6759,0.6862,0.1818,0.1667,0.1739,"{'max_depth': None, 'min_samples_split': 5, 'n_estimators': 300}"
+KNN_Pre_Screen_standard_NoSMOTE,XGBoost,0.35,0.7072,0.6223,0.1818,0.1333,0.1538,"{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}"
+KNN_Pre_Screen_standard_SMOTE,Random Forest,0.35,0.7286,0.6472,0.1818,0.1111,0.1379,"{'max_depth': None, 'min_samples_split': 2, 'n_estimators': 100}"
+KNN_Pre_Screen_standard_SMOTE,XGBoost,0.5,0.7138,0.5563,0.1818,0.1111,0.1379,"{'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 100}"
+KNN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.35,0.7114,0.729,0.0,0.0,0.0,"{'C': 0.1, 'kernel': 'rbf'}"
+KNN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.5,0.7114,0.729,0.0,0.0,0.0,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.35,0.7044,0.7326,0.0,0.0,0.0,"{'C': 0.1, 'kernel': 'rbf'}"
+MEDIAN_Pre_Screen_standard_NoSMOTE,Support Vector Machine,0.5,0.7044,0.7326,0.0,0.0,0.0,"{'C': 0.1, 'kernel': 'rbf'}"
