@@ -5,6 +5,7 @@ from src.pre_processing import preprocess_data
 from src.model_training import train_and_evaluate_models
 from src.threshold_tuning import test_model_thresholds
 import sys
+from post_process import evaluate_best_models
 
 print("==========================================")
 print("CERVICAL CANCER RISK PREDICTION HARNESS")
@@ -16,22 +17,22 @@ imputation_methods = ['knn', 'median']
 # Define different feature dropping strategies to test
 feature_drop_strategies = {
     "Pre_Screen_standard": [
-        'STDs', 'STDs:condylomatosis', 'Schiller', 'Hinselmann'
+        'STDs', 'STDs: Number of diagnosis', 'STDs:condylomatosis', 'Schiller', 'Hinselmann', 'Dx:HPV'
     ],
     "Pre_Screen_STDs": [
-        'STDs:condylomatosis', 'Schiller', 'Hinselmann'
+        'STDs:condylomatosis', 'STDs: Number of diagnosis', 'Schiller', 'Hinselmann', 'Dx:HPV'
     ],
     "Pre_Screen_condy": [
-        'STDs', 'Schiller', 'Hinselmann'
+        'STDs', 'Schiller', 'STDs: Number of diagnosis', 'Hinselmann', 'Dx:HPV'
     ],
         "Post_test_STDs": [
-        'STDs:condylomatosis'
+        'STDs:condylomatosis','STDs: Number of diagnosis', 'Dx:HPV'
     ],
     "Post_test_condy": [
-        'STDs'
+        'STDs','STDs: Number of diagnosis' , 'Dx:HPV'
     ],
         "Post_test_standard": [
-        'STDs','STDs:condylomatosis'
+        'STDs','STDs:condylomatosis','STDs: Number of diagnosis', 'Dx:HPV'
     ]
 }
 
@@ -83,3 +84,6 @@ print(master_results.head(10).to_string(index=False))
 # Save the full ledger for offline analysis
 master_results.to_csv("data/master_experiment_ledger.csv", index=False)
 print("\n[Success] Full results saved to 'data/master_experiment_ledger.csv'.")
+
+# Evaluate the best models
+pre_best, post_best = evaluate_best_models("data/master_experiment_ledger.csv")

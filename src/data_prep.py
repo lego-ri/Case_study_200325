@@ -239,10 +239,30 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
     if verbosity >= 2:
         print(f"   -> Columns removed: {cols_to_drop}")
 
+    # --- DYNAMIC CASCADING NESTED HIERARCHY ---
+    # Isolate Level 2 Sub-Features
+    condy_subs = [
+        'STDs:cervical condylomatosis', 
+        'STDs:vaginal condylomatosis', 
+        'STDs:vulvo-perineal condylomatosis'
+    ]
+    condy_subs = [c for c in condy_subs if c in df.columns]
+
+    # Isolate Level 1 Sub-Features (All STDs minus Level 2)
+    std_subs = [
+        col for col in df.columns 
+        if col.startswith('STDs') 
+        and col != 'STDs' 
+        and col not in condy_subs
+    ]
+
+    # Execution order (Grandparent -> Parent -> Child)
     conditional_groups = [
         ('IUD', ['IUD (years)']), 
         ('Hormonal Contraceptives', ['Hormonal Contraceptives (years)']),
-        ('Smokes', ['Smokes (years)', 'Smokes (packs/year)'])
+        ('Smokes', ['Smokes (years)', 'Smokes (packs/year)']),
+        ('STDs', std_subs),                 # Impute Level 1 (including STDs:condylomatosis)
+        ('STDs:condylomatosis', condy_subs) # Impute Level 2 (cascading from line above)
     ]
 
     # --- MEDIAN IMPUTATION BRANCH ---
@@ -251,6 +271,9 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
             print("\n[Step 3] Executing Deterministic & Median Imputation...")
             
         for master, sub_cols in conditional_groups:
+            if master not in df.columns:
+                continue
+                
             master_missing = df[master].isnull().sum()
             master_median = df[master].median()
             df[master] = df[master].fillna(master_median)
@@ -259,8 +282,18 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
                 print(f"-> '{master}': Filled {master_missing} missing values with median {master_median}.")
                 
             for sub in sub_cols:
+                if sub not in df.columns:
+                    continue
+                    
                 sub_missing = df[sub].isnull().sum()
+                if sub_missing == 0:
+                    continue
+                
                 user_median = df[df[master] == 1][sub].median()
+                
+                # Safety net for sparse data
+                if pd.isna(user_median):
+                    user_median = 0.0
                 
                 zero_fills = ((df[master] == 0) & df[sub].isnull()).sum()
                 median_fills = ((df[master] == 1) & df[sub].isnull()).sum()
@@ -287,8 +320,14 @@ def clean_and_prepare_data(input_filepath, output_filepath=None, imputation_meth
             print("\n[Step 3] Executing Deterministic Pre-fill & KNN Imputation...")
             
         for master, sub_cols in conditional_groups:
+            if master not in df.columns:
+                continue
+                
             df[master] = df[master].fillna(df[master].median())
             for sub in sub_cols:
+                if sub not in df.columns:
+                    continue
+                    
                 fills = ((df[master] == 0) & df[sub].isnull()).sum()
                 df.loc[df[master] == 0, sub] = df.loc[df[master] == 0, sub].fillna(0)
                 if verbosity >= 2 and fills > 0:
@@ -377,11 +416,11 @@ if __name__ == "__main__":
     
     # Define the custom extra drops based on EDA collinearity/leakage findings
     extra_drops = [
-        'STDs',                         # Redundant to STDs (number)
-        'STDs:condylomatosis',          # Redundant master column
+        # 'STDs',                         # Redundant to STDs (number)
+        # 'STDs:condylomatosis',          # Redundant master column
         # 'Citology',                   # Target leakage (commented out as an example of flexibility)
-        'Schiller',                     # Target leakage
-        'Hinselmann'                    # Target leakage
+        # 'Schiller',                     # Target leakage
+        # 'Hinselmann'                    # Target leakage
     ]
     
     # Example: Run KNN with full massive notebook-style logging, passing the extra drops

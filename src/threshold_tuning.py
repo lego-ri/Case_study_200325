@@ -1,37 +1,39 @@
-import numpy as np
 import pandas as pd
-from sklearn.metrics import recall_score, precision_score, f1_score
+from sklearn.metrics import precision_score, recall_score, f1_score, roc_auc_score
 
-def test_model_thresholds(trained_models_dict, X_test, y_test, exp_name, thresholds=[0.50, 0.30, 0.20, 0.15]):
+def test_model_thresholds(trained_models, X_test, y_test, exp_name, thresholds=[0.15, 0.25, 0.35, 0.50]):
     """
-    Tests models against custom probability thresholds and returns a structured DataFrame of results.
+    Iterates through a dictionary of trained models and evaluates their performance 
+    across multiple probability decision thresholds.
     """
     results = []
-    
-    for model_name, model in trained_models_dict.items():
-        # Get the RAW probabilities for the Positive class
-        probabilities = model.predict_proba(X_test)[:, 1]
+
+    for name, model_data in trained_models.items():
+        clf = model_data['model']
+        cv_auc = model_data['cv_auc']
         
-        for threshold in thresholds:
-            custom_predictions = (probabilities >= threshold).astype(int)
+        # Calculate continuous probability for the positive class (Cancer)
+        y_prob = clf.predict_proba(X_test)[:, 1]
+        
+        # Calculate the single overarching Test ROC-AUC
+        test_auc = roc_auc_score(y_test, y_prob)
+        
+        # Test discrete clinical thresholds
+        for thresh in thresholds:
+            y_pred = (y_prob >= thresh).astype(int)
             
-            # zero_division=0 prevents NaN math errors if the model predicts 0 positive cases
-            recall = recall_score(y_test, custom_predictions, pos_label=1, zero_division=0)
-            precision = precision_score(y_test, custom_predictions, pos_label=1, zero_division=0)
-            
-            # Calculate F1 Score manually to ensure zero_division safety
-            f1 = 0.0
-            if (precision + recall) > 0:
-                f1 = 2 * (precision * recall) / (precision + recall)
-            
-            # Append to our structured log
+            rec = recall_score(y_test, y_pred, zero_division=0)
+            prec = precision_score(y_test, y_pred, zero_division=0)
+            f1 = f1_score(y_test, y_pred, zero_division=0)
+
             results.append({
                 'Experiment': exp_name,
-                'Model': model_name,
-                'Threshold': threshold,
-                'Recall': recall,
-                'Precision': precision,
-                'F1_Score': f1
+                'Model': name,
+                'Threshold': thresh,
+                'CV_AUC': round(cv_auc, 4),
+                'Test_AUC': round(test_auc, 4),
+                'Recall': round(rec, 4),
+                'Precision': round(prec, 4),
+                'F1_Score': round(f1, 4)
             })
-            
     return pd.DataFrame(results)

@@ -14,10 +14,9 @@ def train_and_evaluate_models(X_train, y_train, X_test, y_test, apply_smote=Fals
     """
     Executes Nested Cross-Validation with dynamic pipeline execution.
     - Inner Loop: Hyperparameter tuning via GridSearchCV (n_jobs=1 to prevent deadlock).
-    - Outer Loop: Unbiased performance estimation (n_jobs=-1 for parallel speed).
+    - Outer Loop: Unbiased performance estimation (n_jobs=-2 for parallel speed).
     - Pipeline: Ensures SMOTE is only applied to training folds, preventing data leaks.
     """
-    # Silencing base warnings to keep the console clean
     warnings.filterwarnings("ignore", category=UserWarning)
     warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -33,27 +32,26 @@ def train_and_evaluate_models(X_train, y_train, X_test, y_test, apply_smote=Fals
     model_configs = {
         "Logistic Regression": {
             "model": LogisticRegression(class_weight='balanced', random_state=42, max_iter=10000, solver='saga'),
-            # mathematically covering L2 (0.0), L1 (1.0), and standard ElasticNet (0.5) smoothly
             "params": {
-                'classifier__penalty': ['elasticnet'],
-                'classifier__C': [0.01, 0.1, 1, 10],
-                'classifier__l1_ratio': [0.0, 0.5, 1.0] 
+                'classifier__penalty': ['elasticnet'], # combines L1 (Lasso) and L2 (Ridge) penalties
+                'classifier__C': [0.01, 0.1, 1, 10], # Inverse of regularization strength
+                'classifier__l1_ratio': [0.0, 0.5, 1.0] # L1/L2 ratio
             }
         },
         "Random Forest": {
             "model": RandomForestClassifier(class_weight='balanced', random_state=42, n_jobs=-2),
             "params": {
-                'classifier__n_estimators': [100, 300],
-                'classifier__max_depth': [None, 5, 10],
-                'classifier__min_samples_split': [2, 5]
+                'classifier__n_estimators': [100, 300], # Size of the forest
+                'classifier__max_depth': [None, 5, 10], # Maximum depth (consecutive questions)
+                'classifier__min_samples_split': [2, 5] # Minimum number of patients in a node before a split is permitted
             }
         },
         "XGBoost": {
             "model": XGBClassifier(scale_pos_weight=xgb_scale_weight, random_state=42, eval_metric='logloss', n_jobs=-2),
             "params": {
-                'classifier__n_estimators': [100, 200],
+                'classifier__n_estimators': [100, 200], # Depth of the "forest" (trees in sequence)
                 'classifier__learning_rate': [0.01, 0.1],
-                'classifier__max_depth': [3, 5]
+                'classifier__max_depth': [3, 5] # Maximum depth (consecutive questions)
             }
         },
         "Support Vector Machine": {
@@ -89,7 +87,7 @@ def train_and_evaluate_models(X_train, y_train, X_test, y_test, apply_smote=Fals
             param_grid=config['params'], 
             cv=inner_cv, 
             scoring='roc_auc', 
-            n_jobs=-2 
+            n_jobs=1  # MUST remain 1 to prevent multiprocessing deadlock with the outer loop
         )
 
         # 5. Outer Loop: Unbiased Evaluation
@@ -100,6 +98,9 @@ def train_and_evaluate_models(X_train, y_train, X_test, y_test, apply_smote=Fals
 
         # 6. Final Fit
         clf.fit(X_train, y_train)
+        
+        # INJECT THE CV SCORE INTO THE OBJECT FOR DOWNSTREAM LOGGING
+        clf.cv_auc_score = cv_scores.mean()
         
         if verbose:
             print(f"  Best Tuned Parameters: {clf.best_params_}")
@@ -115,6 +116,9 @@ def train_and_evaluate_models(X_train, y_train, X_test, y_test, apply_smote=Fals
             print(classification_report(y_test, y_pred, target_names=['Negative (0)', 'Positive (1)'], zero_division=0))
             print("-" * 60)
             
-        trained_models[name] = clf
-
+        trained_models[name] = {
+                    'model': clf,
+                    'cv_auc': float(cv_scores.mean())
+                }
+        
     return trained_models
