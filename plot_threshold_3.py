@@ -59,5 +59,8 @@ def generate_ledger_recall_plot(ledger_path, target_experiment=None, target_mode
 generate_ledger_recall_plot(
     ledger_path="data/master_experiment_ledger.csv", 
     # target_experiment="MEDIAN_Pre_Screen_standard_NoSMOTE", 
-    target_model="Logistic Regression"
+    # target_model="Logistic Regression"
+    # target_model="Random Forest"
+    target_model="XGBoost"
+
 )
